@@ -1,0 +1,11 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>hw08.vert</file>
+    <file>hw08.frag</file>
+    <file>heightmap.bmp</file>
+    <file>rock.jpg</file>
+    <file>normMap.png</file>
+    <file>grass.jpg</file>
+    <file>snow.jpg</file>
+</qresource>
+</RCC>

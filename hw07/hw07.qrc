@@ -1,0 +1,16 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>ex12a.frag</file>
+    <file>ex12b.frag</file>
+    <file>ex12c.frag</file>
+    <file>ex12d.frag</file>
+    <file>ex12e.frag</file>
+    <file>ex12f.frag</file>
+    <file>ex12g.frag</file>
+    <file>ex12h.frag</file>
+    <file>hw07a.frag</file>
+    <file>hw07b.frag</file>
+    <file>hw07c.frag</file>
+    <file>water.png</file>
+</qresource>
+</RCC>

@@ -1,0 +1,27 @@
+Homework 8 - Textures for Data Storage
+Chris Pillion
+
+SOURCE LANGUAGE:
+  C++
+
+COMPILE USING:
+  qmake
+  make
+
+RUN USING:
+  hw08
+
+ACTIONS:
+  All actions are executed on the Qt Widget.
+  The shader combobox enables the shader. By default, the shader is off. 
+  Map Size applies a scale factor to the xz axis of the map. 
+  Peak size applies a scale factor to the height differences.
+  Reset to reset to dim and angles of 45.
+  Quit to quit
+  
+TIME TO COMPLETE:
+  ~20 hours
+
+NOTES:
+There are still a lot of things I would like to refine and do for this, and I ran into many obstacles, but perhaps I can wrap this into my final project somehow and refine it for the areas I had issues. 
+Sometimes, the shader combobox selection gets stuck (not sure why) - restarting the program tends to fix the problem. 

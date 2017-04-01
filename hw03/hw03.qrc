@@ -1,0 +1,20 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>ex04b.vert</file>
+    <file>ex04c.vert</file>
+    <file>ex04d.vert</file>
+    <file>ex04e.vert</file>
+    <file>hw03a.vert</file>
+    <file>ex04a.frag</file>
+    <file>ex04b.frag</file>
+    <file>ex04c.frag</file>
+    <file>ex04d.frag</file>
+    <file>ex04e.frag</file>
+    <file>hw03a.frag</file>
+    <file>cruiser.obj</file>
+    <file>cruiser.mtl</file>
+    <file>cruiser.png</file>
+    <file>crate.png</file>
+    <file>pi.png</file>
+</qresource>
+</RCC>

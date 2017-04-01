@@ -1,0 +1,27 @@
+Homework 4 - OpenGL 3 and 4
+Chris Pillion
+
+SOURCE LANGUAGE:
+  C++
+
+COMPILE USING:
+  qmake
+  make
+
+RUN USING:
+  hw04
+
+ACTIONS:
+  All actions are executed on the Qt Widget.
+  The shader combobox enables which pipeline to use. The programmable pipeline uses shaders. 
+  The object combobox chooses which object to display.
+  The projection chooses which view to display.
+  The light position automatically orbits the object by default. Otherwise use the slider.
+  The light elevation slider controls the light height.
+  The light button can animate the light. Press pause to move manually. 
+  Reset to reset to a dim of 3.5 and angles of 0.
+  Quit to quit
+  
+TIME TO COMPLETE:
+  ~4-5 hours
+  Note: Although my Mac is a mid 2012, I could not figure out a way to make it happy with GLSL 4.0 without using a different computer. 

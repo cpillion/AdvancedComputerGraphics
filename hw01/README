@@ -1,0 +1,25 @@
+Homework 1 - NDC to RGB Shader
+Chris Pillion
+
+Source Language:
+  C++
+Compile using:
+  qmake
+  make
+Run using:
+  hw01
+Actions:
+  All actions are executed on the Qt Widget.  
+  The object combobox chooses which object to display.
+  The shader combobox enables the NDC to RGB shader.
+  The projection chooses which view to display.
+  Lighting box enables/disables lighting
+  The movement box decides which way to move the object.
+     User input can be controlled via the slidebars.
+     Bounce box randomly shifts the object around randomly
+  Quit to quit
+  
+Time to complete:
+  ~5 hours
+  Fun Fact: About 15 hours with my hard drive failing... 
+            (luckily got the recovery...)

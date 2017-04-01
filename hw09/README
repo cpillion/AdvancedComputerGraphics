@@ -1,0 +1,24 @@
+Homework 9 - Advanced Shaders
+Chris Pillion
+
+SOURCE LANGUAGE:
+  C++
+
+COMPILE USING:
+  qmake
+  make
+
+RUN USING:
+  hw09
+
+ACTIONS:
+  All actions are executed on the Qt Widget.
+  The shader combobox enables which shader to use. 
+  The projection chooses which view to display.
+  The Wind Effect simulates an x direction wind force on the falling particles
+  The Fall Speed controls how fast the particles fall
+  Reset to reset to a dim of 3.5 and angles of 0.
+  Quit to quit
+  
+TIME TO COMPLETE:
+  ~10 hours

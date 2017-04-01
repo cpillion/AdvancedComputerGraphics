@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>hw04.vert</file>
+        <file>hw04.frag</file>
+        <file>crate.png</file>
+    </qresource>
+</RCC>

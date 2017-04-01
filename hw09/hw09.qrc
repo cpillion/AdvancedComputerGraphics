@@ -1,0 +1,8 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>hw09.vert</file>
+    <file>hw09b.vert</file>
+    <file>hw09.frag</file>
+    <file>snowflake.png</file>
+</qresource>
+</RCC>

@@ -1,0 +1,20 @@
+Homework 5 - WebGL
+Chris Pillion
+
+RUN USING:
+  hw05.html
+
+BROWSER:
+  Mozilla Firefox (Preferred)
+  If Chrome is needed, you need to start a local server. 
+	Type "python -m SimpleHTTPServer"
+ 	Open Chrome
+	Navigate to localhost:8000/hw05.html
+  Note: Using --allow-file-access-from-file did not work for me, but the local server did
+
+ACTIONS:
+  Use the mouse to rotate the Earth and zoom in and out. 
+  Close the Window to quit
+  
+TIME TO COMPLETE:
+  ~15 hours

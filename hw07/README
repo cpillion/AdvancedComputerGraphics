@@ -1,0 +1,30 @@
+Homework 7 - Image Processing
+Chris Pillion
+
+SOURCE LANGUAGE:
+  C++
+
+COMPILE USING:
+  qmake
+  make
+
+RUN USING:
+  hw07
+
+ACTIONS:
+  All actions are executed on the Qt Widget.
+  The shader combobox enables which shader to use. All additional shaders are marked HW07. 
+  The projection chooses which view to display.
+  The light position automatically orbits the object by default. Otherwise use the slider.
+  The light elevation slider controls the light height.
+  The light button can animate the light. Press pause to move manually. 
+  The Camera Button enables camera mode or not.
+  The Pixelation Factor increases or decreases the effect of the pixelation shader. 
+  Reset to reset to a dim of 3.5 and angles of 0.
+  Quit to quit
+  
+TIME TO COMPLETE:
+  ~10 hours
+
+PRESENTATION VIDEO:
+https://youtu.be/c21dn3SUTxQ

@@ -1,0 +1,38 @@
+Homework 3 - Performance
+Chris Pillion
+
+SOURCE LANGUAGE:
+  C++
+
+COMPILE USING:
+  qmake
+  make
+
+RUN USING:
+  hw03
+
+ACTIONS:
+  All actions are executed on the Qt Widget.
+  The shader combobox enables the shader. 
+  The Depth Mode enables how depth is rendered.  
+  The object combobox chooses which object to display.
+  The projection chooses which view to display.
+  The light position automatically orbits the object by default. Otherwise use the slider.
+  The light elevation slider controls the light height.
+  The light button can animate the light. Press pause to move manually. 
+  Reset to reset to a dim of 3.5 and angles of 0.
+  Quit to quit
+
+DISCUSSION OF RESULTS:
+The following topics were looked at from a performance standpoint.
+WINDOW SIZE - As you resize the window in OpenGL, the resize function resizes the object to be drawn.  The larger or smaller you make the window and its effect on performance depends on the pipeline you are using. Taking the cube for example, if you are using the standard pipeline, The number of verticies to draw is unchanged and calculation of light/color at the vertices still happens the same number of times. However, if using something like a fragment shader, your object is now covering a much larger part of the screen, and thus more pixels. This causes a higher demand from the GPU to calculate what each pixel color/lighting is going to be.  This is clearly seen when comparing the difference between Pixel Blinn-Phong lighting and Vertex Blinn-Phong lighting. 
+FACE CULLING - Face culling resulted in a noticable performance boost vs the single Z-Buffer when used with more complex objects.  For the box, the object is simpler, so the difference is not as noticable, but still evident. With face culling, the covered faces are not drawn, so there is less strain on the GPU. However, how you draw the objects is more significant and takes a bit more forward thinking.  
+IF STATEMENTS - By removing just a single if statement from my Checkerboard shader, I saw a performance increase of a few hundred frames per second.  As mentioned in class, even if the if statement is only true for a handful of pixels, the concurrent nature of the GPU threads holds all the threads up until the if statement as finished executing.  By ridding the if statement in the checkerboard shader, there was no block in quickly moving to the next calculation. 
+PIXEL VS VERTEX LIGHTING - Similar to the window sizing, how the lighting calculations are performed can be taxing to the system.  Depending on whether you run the lighting calculation at the verticies or pixel by pixel can make a huge difference. When running the vertex shader lighting, we see a noticable performance increase than when we calculate it for each pixel. 
+MACOS VS VIRTUAL MACHINE - I decided to run on the CS virtual machine and sure enough, the performance on the virtual machine is quite poor. A few times the frame rate was so slow that the circling light could not render smoothly when revolving around the object. 
+MOVEMENT VIA VERTEX SHADER - I played with the idea of animation through offsets.  To move the cube around the screen, I implemented a position offset in the fixed pipeline.  This would cause the object to be redrawn at the given offset cooridinates and each frame update would cause the box to move.  Comparing this to the vertex shader implementation, I see that the vertex shader is the better way to accomplish this.  By drawing the box and then moving the verticies in the shader, the program is more efficient. 
+
+  
+TIME TO COMPLETE:
+  ~15 hours
+  Note: MacOS does not seem to have a well known way to disable VSYNC. 
