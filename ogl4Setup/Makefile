@@ -52,19 +52,25 @@ SOURCES       = ../Project/glwidget.cpp \
 		../Project/main.cpp \
 		../Project/window.cpp \
 		../Project/mainwindow.cpp \
-		../Project/logo.cpp qrc_hellogl2.cpp \
+		../Project/logo.cpp \
+		../Project/CUgl.cpp \
+		../Project/Object.cpp qrc_cpTerrainPro.cpp \
 		moc_glwidget.cpp \
 		moc_window.cpp \
-		moc_mainwindow.cpp
+		moc_mainwindow.cpp \
+		moc_CUgl.cpp
 OBJECTS       = glwidget.o \
 		main.o \
 		window.o \
 		mainwindow.o \
 		logo.o \
-		qrc_hellogl2.o \
+		CUgl.o \
+		Object.o \
+		qrc_cpTerrainPro.o \
 		moc_glwidget.o \
 		moc_window.o \
-		moc_mainwindow.o
+		moc_mainwindow.o \
+		moc_CUgl.o
 DIST          = /usr/local/Cellar/qt5/5.7.1_1/mkspecs/features/spec_pre.prf \
 		/usr/local/Cellar/qt5/5.7.1_1/mkspecs/qdevice.pri \
 		/usr/local/Cellar/qt5/5.7.1_1/mkspecs/features/device_config.prf \
@@ -227,11 +233,16 @@ DIST          = /usr/local/Cellar/qt5/5.7.1_1/mkspecs/features/spec_pre.prf \
 		../Project/hellogl2.pro ../Project/glwidget.h \
 		../Project/window.h \
 		../Project/mainwindow.h \
-		../Project/logo.h ../Project/glwidget.cpp \
+		../Project/logo.h \
+		../Project/CUgl.h \
+		../Project/Object.h \
+		../Project/Type.h ../Project/glwidget.cpp \
 		../Project/main.cpp \
 		../Project/window.cpp \
 		../Project/mainwindow.cpp \
-		../Project/logo.cpp
+		../Project/logo.cpp \
+		../Project/CUgl.cpp \
+		../Project/Object.cpp
 QMAKE_TARGET  = hellogl2
 DESTDIR       = 
 TARGET        = hellogl2.app/Contents/MacOS/hellogl2
@@ -404,7 +415,7 @@ Makefile: ../Project/hellogl2.pro /usr/local/Cellar/qt5/5.7.1_1/mkspecs/macx-cla
 		/usr/local/Cellar/qt5/5.7.1_1/mkspecs/features/yacc.prf \
 		/usr/local/Cellar/qt5/5.7.1_1/mkspecs/features/lex.prf \
 		../Project/hellogl2.pro \
-		../Project/hellogl2.qrc \
+		../Project/cpTerrainPro.qrc \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/QtWidgets.prl \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/QtGui.prl \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/QtCore.prl
@@ -569,7 +580,7 @@ Makefile: ../Project/hellogl2.pro /usr/local/Cellar/qt5/5.7.1_1/mkspecs/macx-cla
 /usr/local/Cellar/qt5/5.7.1_1/mkspecs/features/yacc.prf:
 /usr/local/Cellar/qt5/5.7.1_1/mkspecs/features/lex.prf:
 ../Project/hellogl2.pro:
-../Project/hellogl2.qrc:
+../Project/cpTerrainPro.qrc:
 /usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/QtWidgets.prl:
 /usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/QtGui.prl:
 /usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/QtCore.prl:
@@ -602,9 +613,9 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
-	$(COPY_FILE) --parents ../Project/hellogl2.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents ../Project/glwidget.h ../Project/window.h ../Project/mainwindow.h ../Project/logo.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../Project/glwidget.cpp ../Project/main.cpp ../Project/window.cpp ../Project/mainwindow.cpp ../Project/logo.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../Project/cpTerrainPro.qrc ../Project/cpTerrainPro.qrc $(DISTDIR)/
+	$(COPY_FILE) --parents ../Project/glwidget.h ../Project/window.h ../Project/mainwindow.h ../Project/logo.h ../Project/CUgl.h ../Project/Object.h ../Project/Type.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Project/glwidget.cpp ../Project/main.cpp ../Project/window.cpp ../Project/mainwindow.cpp ../Project/logo.cpp ../Project/CUgl.cpp ../Project/Object.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -628,22 +639,27 @@ check: first
 
 benchmark: first
 
-compiler_rcc_make_all: qrc_hellogl2.cpp
+compiler_rcc_make_all: qrc_cpTerrainPro.cpp qrc_cpTerrainPro.cpp
 compiler_rcc_clean:
-	-$(DEL_FILE) qrc_hellogl2.cpp
-qrc_hellogl2.cpp: ../Project/hellogl2.qrc \
+	-$(DEL_FILE) qrc_cpTerrainPro.cpp qrc_cpTerrainPro.cpp
+qrc_cpTerrainPro.cpp: ../Project/cpTerrainPro.qrc \
 		/usr/local/Cellar/qt5/5.7.1_1/bin/rcc \
 		../Project/hw04.frag \
 		../Project/crate.png \
 		../Project/hw04.vert
-	/usr/local/Cellar/qt5/5.7.1_1/bin/rcc -name hellogl2 ../Project/hellogl2.qrc -o qrc_hellogl2.cpp
+	/usr/local/Cellar/qt5/5.7.1_1/bin/rcc -name cpTerrainPro ../Project/cpTerrainPro.qrc -o qrc_cpTerrainPro.cpp
 
-compiler_moc_header_make_all: moc_glwidget.cpp moc_window.cpp moc_mainwindow.cpp
+qrc_cpTerrainPro.cpp: ../Project/cpTerrainPro.qrc \
+		/usr/local/Cellar/qt5/5.7.1_1/bin/rcc \
+		../Project/hw04.frag \
+		../Project/crate.png \
+		../Project/hw04.vert
+	/usr/local/Cellar/qt5/5.7.1_1/bin/rcc -name cpTerrainPro ../Project/cpTerrainPro.qrc -o qrc_cpTerrainPro.cpp
+
+compiler_moc_header_make_all: moc_glwidget.cpp moc_window.cpp moc_mainwindow.cpp moc_CUgl.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_glwidget.cpp moc_window.cpp moc_mainwindow.cpp
-moc_glwidget.cpp: /usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QOpenGLWidget \
-		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qopenglwidget.h \
-		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QOpenGLFunctions \
+	-$(DEL_FILE) moc_glwidget.cpp moc_window.cpp moc_mainwindow.cpp moc_CUgl.cpp
+moc_glwidget.cpp: /usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QOpenGLFunctions \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qopenglfunctions.h \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QOpenGLVertexArrayObject \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qopenglvertexarrayobject.h \
@@ -659,6 +675,27 @@ moc_glwidget.cpp: /usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qvector.h \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QVector3D \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qvector3d.h \
+		../Project/CUgl.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QApplication \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qapplication.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QOpenGLWidget \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qopenglwidget.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QOpenGLShaderProgram \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qopenglshaderprogram.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qstring.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QMouseEvent \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qevent.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QTimer \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qtimer.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QElapsedTimer \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qelapsedtimer.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QMessageBox \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qmessagebox.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QObject \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qobject.h \
+		../Project/Object.h \
+		../Project/Type.h \
 		../Project/glwidget.h \
 		/usr/local/Cellar/qt5/5.7.1_1/bin/moc
 	/usr/local/Cellar/qt5/5.7.1_1/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/usr/local/Cellar/qt5/5.7.1_1/mkspecs/macx-clang -I/Users/Chris/Dropbox/CSCI5239/Project -I/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers -I/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers -I/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include -F/usr/local/Cellar/qt5/5.7.1_1/lib ../Project/glwidget.h -o moc_glwidget.cpp
@@ -674,6 +711,34 @@ moc_mainwindow.cpp: /usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Header
 		../Project/mainwindow.h \
 		/usr/local/Cellar/qt5/5.7.1_1/bin/moc
 	/usr/local/Cellar/qt5/5.7.1_1/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/usr/local/Cellar/qt5/5.7.1_1/mkspecs/macx-clang -I/Users/Chris/Dropbox/CSCI5239/Project -I/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers -I/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers -I/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include -F/usr/local/Cellar/qt5/5.7.1_1/lib ../Project/mainwindow.h -o moc_mainwindow.cpp
+
+moc_CUgl.cpp: /usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QApplication \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qapplication.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QOpenGLWidget \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qopenglwidget.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QOpenGLShaderProgram \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qopenglshaderprogram.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QOpenGLFunctions \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qopenglfunctions.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qstring.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QVector \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qvector.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QMouseEvent \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qevent.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QTimer \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qtimer.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QElapsedTimer \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qelapsedtimer.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QMessageBox \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qmessagebox.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QObject \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qobject.h \
+		../Project/Object.h \
+		../Project/Type.h \
+		../Project/CUgl.h \
+		/usr/local/Cellar/qt5/5.7.1_1/bin/moc
+	/usr/local/Cellar/qt5/5.7.1_1/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -I/usr/local/Cellar/qt5/5.7.1_1/mkspecs/macx-clang -I/Users/Chris/Dropbox/CSCI5239/Project -I/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers -I/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers -I/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers -I. -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include -F/usr/local/Cellar/qt5/5.7.1_1/lib ../Project/CUgl.h -o moc_CUgl.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -692,8 +757,6 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean
 ####### Compile
 
 glwidget.o: ../Project/glwidget.cpp ../Project/glwidget.h \
-		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QOpenGLWidget \
-		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qopenglwidget.h \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QOpenGLFunctions \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qopenglfunctions.h \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QOpenGLVertexArrayObject \
@@ -710,12 +773,27 @@ glwidget.o: ../Project/glwidget.cpp ../Project/glwidget.h \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qvector.h \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QVector3D \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qvector3d.h \
-		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QMouseEvent \
-		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qevent.h \
+		../Project/CUgl.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QApplication \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qapplication.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QOpenGLWidget \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qopenglwidget.h \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QOpenGLShaderProgram \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qopenglshaderprogram.h \
-		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QCoreApplication \
-		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qcoreapplication.h
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qstring.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QMouseEvent \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qevent.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QTimer \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qtimer.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QElapsedTimer \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qelapsedtimer.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QMessageBox \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qmessagebox.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QObject \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qobject.h \
+		../Project/Object.h \
+		../Project/Type.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o glwidget.o ../Project/glwidget.cpp
 
 main.o: ../Project/main.cpp /usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QApplication \
@@ -730,8 +808,6 @@ main.o: ../Project/main.cpp /usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framewor
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../Project/main.cpp
 
 window.o: ../Project/window.cpp ../Project/glwidget.h \
-		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QOpenGLWidget \
-		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qopenglwidget.h \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QOpenGLFunctions \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qopenglfunctions.h \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QOpenGLVertexArrayObject \
@@ -748,6 +824,27 @@ window.o: ../Project/window.cpp ../Project/glwidget.h \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qvector.h \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QVector3D \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qvector3d.h \
+		../Project/CUgl.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QApplication \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qapplication.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QOpenGLWidget \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qopenglwidget.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QOpenGLShaderProgram \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qopenglshaderprogram.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qstring.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QMouseEvent \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qevent.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QTimer \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qtimer.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QElapsedTimer \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qelapsedtimer.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QMessageBox \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qmessagebox.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QObject \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qobject.h \
+		../Project/Object.h \
+		../Project/Type.h \
 		../Project/window.h \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QWidget \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qwidget.h \
@@ -760,15 +857,10 @@ window.o: ../Project/window.cpp ../Project/glwidget.h \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qboxlayout.h \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QHBoxLayout \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QKeyEvent \
-		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qevent.h \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QPushButton \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qpushbutton.h \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QDesktopWidget \
-		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qdesktopwidget.h \
-		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QApplication \
-		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qapplication.h \
-		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QMessageBox \
-		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qmessagebox.h
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qdesktopwidget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o window.o ../Project/window.cpp
 
 mainwindow.o: ../Project/mainwindow.cpp ../Project/mainwindow.h \
@@ -794,8 +886,41 @@ logo.o: ../Project/logo.cpp ../Project/logo.h \
 		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qmath.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o logo.o ../Project/logo.cpp
 
-qrc_hellogl2.o: qrc_hellogl2.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_hellogl2.o qrc_hellogl2.cpp
+CUgl.o: ../Project/CUgl.cpp ../Project/CUgl.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QApplication \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qapplication.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QOpenGLWidget \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qopenglwidget.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QOpenGLShaderProgram \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qopenglshaderprogram.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QOpenGLFunctions \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qopenglfunctions.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QString \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qstring.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QVector \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qvector.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/QMouseEvent \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtGui.framework/Headers/qevent.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QTimer \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qtimer.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QElapsedTimer \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qelapsedtimer.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QMessageBox \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qmessagebox.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/QObject \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtCore.framework/Headers/qobject.h \
+		../Project/Object.h \
+		../Project/Type.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CUgl.o ../Project/CUgl.cpp
+
+Object.o: ../Project/Object.cpp ../Project/Object.h \
+		../Project/Type.h \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/QOpenGLWidget \
+		/usr/local/Cellar/qt5/5.7.1_1/lib/QtWidgets.framework/Headers/qopenglwidget.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Object.o ../Project/Object.cpp
+
+qrc_cpTerrainPro.o: qrc_cpTerrainPro.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_cpTerrainPro.o qrc_cpTerrainPro.cpp
 
 moc_glwidget.o: moc_glwidget.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_glwidget.o moc_glwidget.cpp
@@ -806,23 +931,14 @@ moc_window.o: moc_window.cpp
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
 
+moc_CUgl.o: moc_CUgl.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_CUgl.o moc_CUgl.cpp
+
 ####### Install
 
-install_target: first FORCE
-	@test -d $(INSTALL_ROOT)/usr/local/Cellar/qt5/5.7.1_1/examples/opengl/hellogl2 || mkdir -p $(INSTALL_ROOT)/usr/local/Cellar/qt5/5.7.1_1/examples/opengl/hellogl2
-	$(DEL_FILE) -r $(INSTALL_ROOT)/usr/local/Cellar/qt5/5.7.1_1/examples/opengl/hellogl2/hellogl2.app
-	
-	-$(INSTALL_DIR) hellogl2.app $(INSTALL_ROOT)/usr/local/Cellar/qt5/5.7.1_1/examples/opengl/hellogl2/hellogl2.app
-	-$(STRIP) $(INSTALL_ROOT)/usr/local/Cellar/qt5/5.7.1_1/examples/opengl/hellogl2/hellogl2.app/Contents/MacOS/$(QMAKE_TARGET)
+install:  FORCE
 
-uninstall_target: FORCE
-	-$(DEL_FILE) -r $(INSTALL_ROOT)/usr/local/Cellar/qt5/5.7.1_1/examples/opengl/hellogl2/hellogl2.app
-	-$(DEL_DIR) $(INSTALL_ROOT)/usr/local/Cellar/qt5/5.7.1_1/examples/opengl/hellogl2/ 
-
-
-install: install_target  FORCE
-
-uninstall: uninstall_target  FORCE
+uninstall:  FORCE
 
 FORCE:
 

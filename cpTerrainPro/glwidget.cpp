@@ -1,12 +1,8 @@
 
 #include "glwidget.h"
-#include <QMouseEvent>
-#include <QOpenGLShaderProgram>
-#include <QCoreApplication>
-#include <math.h>
 
 GLWidget::GLWidget(QWidget *parent)
-    : QOpenGLWidget(parent),
+    : CUgl(parent),
       m_xRot(0),
       m_yRot(0),
       m_zRot(0),

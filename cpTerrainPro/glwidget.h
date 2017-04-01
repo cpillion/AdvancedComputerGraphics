@@ -51,17 +51,17 @@
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
 
-#include <QOpenGLWidget>
 #include <QOpenGLFunctions>
 #include <QOpenGLVertexArrayObject>
 #include <QOpenGLBuffer>
 #include <QOpenGLTexture>
 #include <QMatrix4x4>
 #include "logo.h"
+#include "CUgl.h"
 
-QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
+//QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
 
-class GLWidget : public QOpenGLWidget, protected QOpenGLFunctions
+class GLWidget : public CUgl, protected QOpenGLFunctions
 {
     Q_OBJECT
 
