@@ -93,7 +93,6 @@ protected:
 private:
     void setupVertexAttribs();
 
-    bool m_core;
     int cube_size;
     int m_xRot;
     int m_yRot;

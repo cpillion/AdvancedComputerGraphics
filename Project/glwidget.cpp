@@ -12,7 +12,6 @@ GLWidget::GLWidget(QWidget *parent)
       m_zRot(0),
       m_program(0)
 {
-    m_core = 1;//QCoreApplication::arguments().contains(QStringLiteral("--coreprofile"));
     cube_size=36;
 }
 
