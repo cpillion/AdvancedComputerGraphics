@@ -16,6 +16,7 @@
 #include <QElapsedTimer>
 #include <QMessageBox>
 #include <QObject>
+#include "math.h"
 #include "Object.h"
 
 class CUgl : public QOpenGLWidget
@@ -42,7 +43,7 @@ protected:
    int              mode;     // Selected shader
    QVector<QOpenGLShaderProgram*> shader; // Shaders
 public:
-   CUgl(QWidget* parent=0,bool fixed=true);        // Constructor
+   CUgl(QWidget* parent=0);        // Constructor
    QSize sizeHint() const {return QSize(400,400);} // Default size of widget
 public slots:
    void reset();

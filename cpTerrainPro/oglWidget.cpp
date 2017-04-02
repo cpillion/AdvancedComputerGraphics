@@ -1,7 +1,8 @@
 
-#include "glwidget.h"
+#include "oglWidget.h"
+#include "particles.h"
 
-GLWidget::GLWidget(QWidget *parent)
+oglWidget::oglWidget(QWidget *parent)
     : CUgl(parent),
       m_xRot(0),
       m_yRot(0),
@@ -11,17 +12,17 @@ GLWidget::GLWidget(QWidget *parent)
     cube_size=36;
 }
 
-GLWidget::~GLWidget()
+oglWidget::~oglWidget()
 {
     cleanup();
 }
 
-QSize GLWidget::minimumSizeHint() const
+QSize oglWidget::minimumSizeHint() const
 {
     return QSize(50, 50);
 }
 
-QSize GLWidget::sizeHint() const
+QSize oglWidget::sizeHint() const
 {
     return QSize(600, 400);
 }
@@ -34,7 +35,7 @@ static void qNormalizeAngle(int &angle)
         angle -= 360 * 16;
 }
 
-void GLWidget::setXRotation(int angle)
+void oglWidget::setXRotation(int angle)
 {
     qNormalizeAngle(angle);
     if (angle != m_xRot) {
@@ -44,7 +45,7 @@ void GLWidget::setXRotation(int angle)
     }
 }
 
-void GLWidget::setYRotation(int angle)
+void oglWidget::setYRotation(int angle)
 {
     qNormalizeAngle(angle);
     if (angle != m_yRot) {
@@ -54,7 +55,7 @@ void GLWidget::setYRotation(int angle)
     }
 }
 
-void GLWidget::setZRotation(int angle)
+void oglWidget::setZRotation(int angle)
 {
     qNormalizeAngle(angle);
     if (angle != m_zRot) {
@@ -64,7 +65,7 @@ void GLWidget::setZRotation(int angle)
     }
 }
 
-void GLWidget::cleanup()
+void oglWidget::cleanup()
 {
     makeCurrent();
     m_logoVbo.destroy();
@@ -73,27 +74,15 @@ void GLWidget::cleanup()
     doneCurrent();
 }
 
-void GLWidget::initializeGL()
+void oglWidget::initializeGL()
 {
-    // In this example the widget's corresponding top-level window can change
-    // several times during the widget's lifetime. Whenever this happens, the
-    // QOpenGLWidget's associated context is destroyed and a new one is created.
-    // Therefore we have to be prepared to clean up the resources on the
-    // aboutToBeDestroyed() signal, instead of the destructor. The emission of
-    // the signal will be followed by an invocation of initializeGL() where we
-    // can recreate all resources.
-    connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &GLWidget::cleanup);
+    connect(context(), &QOpenGLContext::aboutToBeDestroyed, this, &oglWidget::cleanup);
 
     initializeOpenGLFunctions();
     glClearColor(0, 0, 0, 1);
 
-    m_program = new QOpenGLShaderProgram;
-    m_program->addShaderFromSourceFile(QOpenGLShader::Vertex,":/hw04.vert");
-    m_program->addShaderFromSourceFile(QOpenGLShader::Fragment,":/hw04.frag");
-    m_program->bindAttributeLocation("Vertex", 0);
-    m_program->bindAttributeLocation("Color", 1);
-    m_program->bindAttributeLocation("Normal", 2);
-    m_program->bindAttributeLocation("Texture", 3);
+    addShader(":/shaders/cube.vert", ":/shaders/cube.frag", "Vertex,Color,Normal,Texture");
+    m_program = shader[1];
     m_program->link();
 
     m_program->bind();
@@ -154,7 +143,7 @@ void GLWidget::initializeGL()
        +1,-1,+1,+1,   0,-1, 0,   1,0,1,  1,1,
        };
 
-    crateTex = new QOpenGLTexture(QImage(":/crate.png").mirrored());
+    crateTex = new QOpenGLTexture(QImage(":/textures/crate.png").mirrored());
     // Create a vertex array object. In OpenGL ES 2.0 and OpenGL 2.x
     // implementations this is optional and support may not be present
     // at all. Nonetheless the below code works in all cases and makes
@@ -181,7 +170,7 @@ void GLWidget::initializeGL()
     m_program->release();
 }
 
-void GLWidget::setupVertexAttribs()
+void oglWidget::setupVertexAttribs()
 {
     m_logoVbo.bind();
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
@@ -196,8 +185,12 @@ void GLWidget::setupVertexAttribs()
     m_logoVbo.release();
 }
 
-void GLWidget::paintGL()
+void oglWidget::paintGL()
 {
+    //  Wall time (seconds)
+    float t = 0.001*time.elapsed();
+    zh = fmod(90*t,360);
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
 
@@ -220,18 +213,18 @@ void GLWidget::paintGL()
     m_program->release();
 }
 
-void GLWidget::resizeGL(int w, int h)
+void oglWidget::resizeGL(int w, int h)
 {
     m_proj.setToIdentity();
     m_proj.perspective(45.0f, GLfloat(w) / h, 0.01f, 100.0f);
 }
 
-void GLWidget::mousePressEvent(QMouseEvent *event)
+void oglWidget::mousePressEvent(QMouseEvent *event)
 {
     m_lastPos = event->pos();
 }
 
-void GLWidget::mouseMoveEvent(QMouseEvent *event)
+void oglWidget::mouseMoveEvent(QMouseEvent *event)
 {
     int dx = event->x() - m_lastPos.x();
     int dy = event->y() - m_lastPos.y();

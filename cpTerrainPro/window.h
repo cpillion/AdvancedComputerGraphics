@@ -56,7 +56,7 @@
 class QSlider;
 class QPushButton;
 
-class GLWidget;
+class oglWidget;
 class MainWindow;
 
 class Window : public QWidget
@@ -75,7 +75,7 @@ private slots:
 private:
     QSlider *createSlider();
 
-    GLWidget *glWidget;
+    oglWidget *glWidget;
     QSlider *xSlider;
     QSlider *ySlider;
     QSlider *zSlider;

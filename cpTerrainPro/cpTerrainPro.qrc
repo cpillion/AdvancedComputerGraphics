@@ -1,7 +1,10 @@
 <RCC>
     <qresource prefix="/">
-        <file>hw04.vert</file>
-        <file>hw04.frag</file>
-        <file>crate.png</file>
+        <file>textures/snowflake.png</file>
+        <file>textures/crate.png</file>
+        <file>shaders/hw09.vert</file>
+        <file>shaders/hw09.frag</file>
+        <file>shaders/cube.frag</file>
+        <file>shaders/cube.vert</file>
     </qresource>
 </RCC>

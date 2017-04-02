@@ -48,7 +48,7 @@
 **
 ****************************************************************************/
 
-#include "glwidget.h"
+#include "oglWidget.h"
 #include "window.h"
 #include "mainwindow.h"
 #include <QSlider>
@@ -63,18 +63,18 @@
 Window::Window(MainWindow *mw)
     : mainWindow(mw)
 {
-    glWidget = new GLWidget;
+    glWidget = new oglWidget;
 
     xSlider = createSlider();
     ySlider = createSlider();
     zSlider = createSlider();
 
-    connect(xSlider, &QSlider::valueChanged, glWidget, &GLWidget::setXRotation);
-    connect(glWidget, &GLWidget::xRotationChanged, xSlider, &QSlider::setValue);
-    connect(ySlider, &QSlider::valueChanged, glWidget, &GLWidget::setYRotation);
-    connect(glWidget, &GLWidget::yRotationChanged, ySlider, &QSlider::setValue);
-    connect(zSlider, &QSlider::valueChanged, glWidget, &GLWidget::setZRotation);
-    connect(glWidget, &GLWidget::zRotationChanged, zSlider, &QSlider::setValue);
+    connect(xSlider, &QSlider::valueChanged, glWidget, &oglWidget::setXRotation);
+    connect(glWidget, &oglWidget::xRotationChanged, xSlider, &QSlider::setValue);
+    connect(ySlider, &QSlider::valueChanged, glWidget, &oglWidget::setYRotation);
+    connect(glWidget, &oglWidget::yRotationChanged, ySlider, &QSlider::setValue);
+    connect(zSlider, &QSlider::valueChanged, glWidget, &oglWidget::setZRotation);
+    connect(glWidget, &oglWidget::zRotationChanged, zSlider, &QSlider::setValue);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     QHBoxLayout *container = new QHBoxLayout;

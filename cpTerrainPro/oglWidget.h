@@ -48,8 +48,8 @@
 **
 ****************************************************************************/
 
-#ifndef GLWIDGET_H
-#define GLWIDGET_H
+#ifndef OGLWIDGET_H
+#define OGLWIDGET_H
 
 #include <QOpenGLFunctions>
 #include <QOpenGLVertexArrayObject>
@@ -61,13 +61,13 @@
 
 //QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
 
-class GLWidget : public CUgl, protected QOpenGLFunctions
+class oglWidget : public CUgl, protected QOpenGLFunctions
 {
     Q_OBJECT
 
 public:
-    GLWidget(QWidget *parent = 0);
-    ~GLWidget();
+    oglWidget(QWidget *parent = 0);
+    ~oglWidget();
 
     QSize minimumSizeHint() const override;
     QSize sizeHint() const override;
@@ -93,6 +93,7 @@ protected:
 private:
     void setupVertexAttribs();
 
+    float zh;
     int cube_size;
     int m_xRot;
     int m_yRot;

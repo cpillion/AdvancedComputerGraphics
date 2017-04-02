@@ -3,20 +3,18 @@
 //
 //#define GL_GLEXT_PROTOTYPES
 #include "CUgl.h"
-#include <math.h>
 #define Cos(th) cos(M_PI/180*(th))
 #define Sin(th) sin(M_PI/180*(th))
 
 //
 //  Constructor
 //
-CUgl::CUgl(QWidget* parent,bool fixed)
+CUgl::CUgl(QWidget* parent)
     : QOpenGLWidget(parent)
 {
    //  Initial shader
    mode  = 0;
-   //  Fixed pipeline
-   if (fixed) shader.push_back(NULL);
+   shader.append(NULL);
    //  Draw all objects
    obj = -1;
    //  Projection
@@ -115,7 +113,7 @@ void CUgl::setObject(int type)
 //
 void CUgl::addObject(Object* obj)
 {
-   objects.push_back(obj);
+   objects.append(obj);
 }
 
 //
@@ -392,7 +390,7 @@ void CUgl::addShader(QString vert,QString frag,QString names)
       Fatal("Error linking shader\n"+prog->log());
    //  Push onto stack
    else
-      shader.push_back(prog);
+      shader.append(prog);
 }
 
 //
@@ -415,7 +413,7 @@ void CUgl::addShader3(QString vert,QString geom,QString frag)
       Fatal("Error linking shader\n"+prog->log());
    //  Push onto stack
    else
-      shader.push_back(prog);
+      shader.append(prog);
 }
 
 //

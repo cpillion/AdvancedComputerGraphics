@@ -48,29 +48,31 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = glwidget.cpp \
-		main.cpp \
+SOURCES       = main.cpp \
 		window.cpp \
 		mainwindow.cpp \
 		logo.cpp \
 		CUgl.cpp \
-		Object.cpp qrc_cpTerrainPro.cpp \
-		moc_glwidget.cpp \
+		Object.cpp \
+		oglWidget.cpp \
+		particles.cpp qrc_cpTerrainPro.cpp \
 		moc_window.cpp \
 		moc_mainwindow.cpp \
-		moc_CUgl.cpp
-OBJECTS       = glwidget.o \
-		main.o \
+		moc_CUgl.cpp \
+		moc_oglWidget.cpp
+OBJECTS       = main.o \
 		window.o \
 		mainwindow.o \
 		logo.o \
 		CUgl.o \
 		Object.o \
+		oglWidget.o \
+		particles.o \
 		qrc_cpTerrainPro.o \
-		moc_glwidget.o \
 		moc_window.o \
 		moc_mainwindow.o \
-		moc_CUgl.o
+		moc_CUgl.o \
+		moc_oglWidget.o
 DIST          = ../../../Qt/5.8/clang_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.8/clang_64/mkspecs/qdevice.pri \
 		../../../Qt/5.8/clang_64/mkspecs/features/device_config.prf \
@@ -246,19 +248,21 @@ DIST          = ../../../Qt/5.8/clang_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.8/clang_64/mkspecs/features/exceptions.prf \
 		../../../Qt/5.8/clang_64/mkspecs/features/yacc.prf \
 		../../../Qt/5.8/clang_64/mkspecs/features/lex.prf \
-		cpTerrainPro.pro glwidget.h \
-		window.h \
+		cpTerrainPro.pro window.h \
 		mainwindow.h \
 		logo.h \
 		CUgl.h \
 		Object.h \
-		Type.h glwidget.cpp \
-		main.cpp \
+		Type.h \
+		oglWidget.h \
+		particles.h main.cpp \
 		window.cpp \
 		mainwindow.cpp \
 		logo.cpp \
 		CUgl.cpp \
-		Object.cpp
+		Object.cpp \
+		oglWidget.cpp \
+		particles.cpp
 QMAKE_TARGET  = cpTerrainPro
 DESTDIR       = 
 TARGET        = cpTerrainPro.app/Contents/MacOS/cpTerrainPro
@@ -663,8 +667,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents cpTerrainPro.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.8/clang_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents glwidget.h window.h mainwindow.h logo.h CUgl.h Object.h Type.h $(DISTDIR)/
-	$(COPY_FILE) --parents glwidget.cpp main.cpp window.cpp mainwindow.cpp logo.cpp CUgl.cpp Object.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents window.h mainwindow.h logo.h CUgl.h Object.h Type.h oglWidget.h particles.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp window.cpp mainwindow.cpp logo.cpp CUgl.cpp Object.cpp oglWidget.cpp particles.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -693,9 +697,12 @@ compiler_rcc_clean:
 	-$(DEL_FILE) qrc_cpTerrainPro.cpp
 qrc_cpTerrainPro.cpp: cpTerrainPro.qrc \
 		../../../Qt/5.8/clang_64/bin/rcc \
-		hw04.frag \
-		crate.png \
-		hw04.vert
+		shaders/cube.frag \
+		shaders/hw09.vert \
+		shaders/cube.vert \
+		shaders/hw09.frag \
+		textures/crate.png \
+		textures/snowflake.png
 	/Users/Chris/Qt/5.8/clang_64/bin/rcc -name cpTerrainPro cpTerrainPro.qrc -o qrc_cpTerrainPro.cpp
 
 compiler_moc_predefs_make_all: moc_predefs.h
@@ -704,51 +711,9 @@ compiler_moc_predefs_clean:
 moc_predefs.h: ../../../Qt/5.8/clang_64/mkspecs/features/data/dummy.cpp
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -pipe -stdlib=libc++ -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk -mmacosx-version-min=10.9 $(EXPORT_QMAKE_XARCH_CFLAGS) -O2 -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h ../../../Qt/5.8/clang_64/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_glwidget.cpp moc_window.cpp moc_mainwindow.cpp moc_CUgl.cpp
+compiler_moc_header_make_all: moc_window.cpp moc_mainwindow.cpp moc_CUgl.cpp moc_oglWidget.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_glwidget.cpp moc_window.cpp moc_mainwindow.cpp moc_CUgl.cpp
-moc_glwidget.cpp: ../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLFunctions \
-		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglfunctions.h \
-		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLVertexArrayObject \
-		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglvertexarrayobject.h \
-		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLBuffer \
-		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglbuffer.h \
-		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLTexture \
-		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopengltexture.h \
-		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QMatrix4x4 \
-		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qmatrix4x4.h \
-		logo.h \
-		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopengl.h \
-		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QVector \
-		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qvector.h \
-		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QVector3D \
-		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qvector3d.h \
-		CUgl.h \
-		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/QApplication \
-		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qapplication.h \
-		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/QOpenGLWidget \
-		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qopenglwidget.h \
-		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLShaderProgram \
-		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglshaderprogram.h \
-		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QString \
-		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qstring.h \
-		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QMouseEvent \
-		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qevent.h \
-		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QTimer \
-		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qtimer.h \
-		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QElapsedTimer \
-		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qelapsedtimer.h \
-		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/QMessageBox \
-		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qmessagebox.h \
-		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QObject \
-		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qobject.h \
-		Object.h \
-		Type.h \
-		glwidget.h \
-		moc_predefs.h \
-		../../../Qt/5.8/clang_64/bin/moc
-	/Users/Chris/Qt/5.8/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/Chris/Qt/5.8/clang_64/mkspecs/macx-clang -I/Users/Chris/Dropbox/CSCI5239/cpTerrainPro -I/Users/Chris/Qt/5.8/clang_64/lib/QtWidgets.framework/Headers -I/Users/Chris/Qt/5.8/clang_64/lib/QtGui.framework/Headers -I/Users/Chris/Qt/5.8/clang_64/lib/QtCore.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include -F/Users/Chris/Qt/5.8/clang_64/lib glwidget.h -o moc_glwidget.cpp
-
+	-$(DEL_FILE) moc_window.cpp moc_mainwindow.cpp moc_CUgl.cpp moc_oglWidget.cpp
 moc_window.cpp: ../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/QWidget \
 		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qwidget.h \
 		window.h \
@@ -792,24 +757,7 @@ moc_CUgl.cpp: ../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/QApplicat
 		../../../Qt/5.8/clang_64/bin/moc
 	/Users/Chris/Qt/5.8/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/Chris/Qt/5.8/clang_64/mkspecs/macx-clang -I/Users/Chris/Dropbox/CSCI5239/cpTerrainPro -I/Users/Chris/Qt/5.8/clang_64/lib/QtWidgets.framework/Headers -I/Users/Chris/Qt/5.8/clang_64/lib/QtGui.framework/Headers -I/Users/Chris/Qt/5.8/clang_64/lib/QtCore.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include -F/Users/Chris/Qt/5.8/clang_64/lib CUgl.h -o moc_CUgl.cpp
 
-compiler_moc_source_make_all:
-compiler_moc_source_clean:
-compiler_uic_make_all:
-compiler_uic_clean:
-compiler_rez_source_make_all:
-compiler_rez_source_clean:
-compiler_yacc_decl_make_all:
-compiler_yacc_decl_clean:
-compiler_yacc_impl_make_all:
-compiler_yacc_impl_clean:
-compiler_lex_make_all:
-compiler_lex_clean:
-compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean 
-
-####### Compile
-
-glwidget.o: glwidget.cpp glwidget.h \
-		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLFunctions \
+moc_oglWidget.cpp: ../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLFunctions \
 		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglfunctions.h \
 		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLVertexArrayObject \
 		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglvertexarrayobject.h \
@@ -845,8 +793,27 @@ glwidget.o: glwidget.cpp glwidget.h \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QObject \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		Object.h \
-		Type.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o glwidget.o glwidget.cpp
+		Type.h \
+		oglWidget.h \
+		moc_predefs.h \
+		../../../Qt/5.8/clang_64/bin/moc
+	/Users/Chris/Qt/5.8/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/Chris/Qt/5.8/clang_64/mkspecs/macx-clang -I/Users/Chris/Dropbox/CSCI5239/cpTerrainPro -I/Users/Chris/Qt/5.8/clang_64/lib/QtWidgets.framework/Headers -I/Users/Chris/Qt/5.8/clang_64/lib/QtGui.framework/Headers -I/Users/Chris/Qt/5.8/clang_64/lib/QtCore.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.0.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include -F/Users/Chris/Qt/5.8/clang_64/lib oglWidget.h -o moc_oglWidget.cpp
+
+compiler_moc_source_make_all:
+compiler_moc_source_clean:
+compiler_uic_make_all:
+compiler_uic_clean:
+compiler_rez_source_make_all:
+compiler_rez_source_clean:
+compiler_yacc_decl_make_all:
+compiler_yacc_decl_clean:
+compiler_yacc_impl_make_all:
+compiler_yacc_impl_clean:
+compiler_lex_make_all:
+compiler_lex_clean:
+compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean 
+
+####### Compile
 
 main.o: main.cpp ../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/QApplication \
 		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qapplication.h \
@@ -859,7 +826,7 @@ main.o: main.cpp ../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/QAppli
 		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qmainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
-window.o: window.cpp glwidget.h \
+window.o: window.cpp oglWidget.h \
 		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLFunctions \
 		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglfunctions.h \
 		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLVertexArrayObject \
@@ -971,11 +938,54 @@ Object.o: Object.cpp Object.h \
 		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qopenglwidget.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Object.o Object.cpp
 
+oglWidget.o: oglWidget.cpp oglWidget.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLFunctions \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglfunctions.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLVertexArrayObject \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglvertexarrayobject.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLBuffer \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglbuffer.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLTexture \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopengltexture.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QMatrix4x4 \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qmatrix4x4.h \
+		logo.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopengl.h \
+		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QVector \
+		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qvector.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QVector3D \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qvector3d.h \
+		CUgl.h \
+		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/QApplication \
+		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qapplication.h \
+		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/QOpenGLWidget \
+		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qopenglwidget.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLShaderProgram \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglshaderprogram.h \
+		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QString \
+		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qstring.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QMouseEvent \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qevent.h \
+		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QTimer \
+		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qtimer.h \
+		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QElapsedTimer \
+		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qelapsedtimer.h \
+		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/QMessageBox \
+		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qmessagebox.h \
+		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QObject \
+		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		Object.h \
+		Type.h \
+		particles.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o oglWidget.o oglWidget.cpp
+
+particles.o: particles.cpp particles.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLFunctions \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglfunctions.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o particles.o particles.cpp
+
 qrc_cpTerrainPro.o: qrc_cpTerrainPro.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_cpTerrainPro.o qrc_cpTerrainPro.cpp
-
-moc_glwidget.o: moc_glwidget.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_glwidget.o moc_glwidget.cpp
 
 moc_window.o: moc_window.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_window.o moc_window.cpp
@@ -985,6 +995,9 @@ moc_mainwindow.o: moc_mainwindow.cpp
 
 moc_CUgl.o: moc_CUgl.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_CUgl.o moc_CUgl.cpp
+
+moc_oglWidget.o: moc_oglWidget.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_oglWidget.o moc_oglWidget.cpp
 
 ####### Install
 
