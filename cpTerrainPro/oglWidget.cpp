@@ -7,7 +7,7 @@ oglWidget::oglWidget(QWidget *parent)
       m_xRot(0),
       m_yRot(0),
       m_zRot(0),
-      m_program(0)
+      crateShader(0)
 {
     cube_size=36;
 }
@@ -69,10 +69,40 @@ void oglWidget::cleanup()
 {
     makeCurrent();
     m_logoVbo.destroy();
-    delete m_program;
-    m_program = 0;
+    delete crateShader;
+    crateShader = 0;
     doneCurrent();
 }
+
+//
+//  Set mode
+//
+void oglWidget::setMode(int m)
+{
+   mode = m;
+   //  Request redisplay
+   update();
+}
+
+//
+//  Set position
+//
+void oglWidget::setMsize(int s)
+{
+   MAP_SCALE = 0.1*s;
+   //  Request redisplay
+   //InitializeTerrain();
+   update();
+}
+
+void oglWidget::setHsize(int s)
+{
+   H_SCALE = 0.1*s;
+   //  Request redisplay
+   //InitializeTerrain();
+   update();
+}
+
 
 void oglWidget::initializeGL()
 {
@@ -82,16 +112,16 @@ void oglWidget::initializeGL()
     glClearColor(0, 0, 0, 1);
 
     addShader(":/shaders/cube.vert", ":/shaders/cube.frag", "Vertex,Color,Normal,Texture");
-    m_program = shader[1];
-    m_program->link();
+    crateShader = shader[1];
+    crateShader->link();
 
-    m_program->bind();
-    m_program->setUniformValue("tex", 0);
-    m_projMatrixLoc = m_program->uniformLocation("ProjectionMatrix");
-    m_mvMatrixLoc = m_program->uniformLocation("ModelViewMatrix");
-    m_normalMatrixLoc = m_program->uniformLocation("NormalMatrix");
-    m_vMatrixLoc = m_program->uniformLocation("ViewMatrix");
-    m_lightPosLoc = m_program->uniformLocation("Position");
+    crateShader->bind();
+    crateShader->setUniformValue("tex", 0);
+    m_projMatrixLoc = crateShader->uniformLocation("ProjectionMatrix");
+    m_mvMatrixLoc = crateShader->uniformLocation("ModelViewMatrix");
+    m_normalMatrixLoc = crateShader->uniformLocation("NormalMatrix");
+    m_vMatrixLoc = crateShader->uniformLocation("ViewMatrix");
+    m_lightPosLoc = crateShader->uniformLocation("Position");
 
     //
     //  Cube Vertexes
@@ -165,9 +195,9 @@ void oglWidget::initializeGL()
     m_camera.translate(0, 0, -10);
 
     // Light position is fixed.
-    m_program->setUniformValue(m_lightPosLoc, QVector3D(0, 0, 70));
+    crateShader->setUniformValue(m_lightPosLoc, QVector3D(0, 0, 70));
 
-    m_program->release();
+    crateShader->release();
 }
 
 void oglWidget::setupVertexAttribs()
@@ -200,17 +230,17 @@ void oglWidget::paintGL()
     m_world.rotate(m_zRot / 16.0f, 0, 0, 1);
 
     QOpenGLVertexArrayObject::Binder vaoBinder(&m_vao);
-    m_program->bind();
-    m_program->setUniformValue(m_projMatrixLoc, m_proj);
-    m_program->setUniformValue(m_mvMatrixLoc, m_camera * m_world);
+    crateShader->bind();
+    crateShader->setUniformValue(m_projMatrixLoc, m_proj);
+    crateShader->setUniformValue(m_mvMatrixLoc, m_camera * m_world);
     QMatrix3x3 normalMatrix = m_world.normalMatrix();
-    m_program->setUniformValue(m_normalMatrixLoc, normalMatrix);
-    m_program->setUniformValue(m_vMatrixLoc, m_world);
+    crateShader->setUniformValue(m_normalMatrixLoc, normalMatrix);
+    crateShader->setUniformValue(m_vMatrixLoc, m_world);
 
     crateTex->bind();
     glDrawArrays(GL_TRIANGLES, 0, cube_size);
 
-    m_program->release();
+    crateShader->release();
 }
 
 void oglWidget::resizeGL(int w, int h)

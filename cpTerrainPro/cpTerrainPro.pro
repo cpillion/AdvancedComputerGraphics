@@ -1,21 +1,17 @@
 HEADERS       = \
-                window.h \
-                mainwindow.h \
-                logo.h \
     CUgl.h \
     Object.h \
     Type.h \
     oglWidget.h \
-    particles.h
+    particles.h \
+    appWindow.h
 SOURCES       = \
                 main.cpp \
-                window.cpp \
-                mainwindow.cpp \
-                logo.cpp \
     CUgl.cpp \
     Object.cpp \
     oglWidget.cpp \
-    particles.cpp
+    particles.cpp \
+    appWindow.cpp
 
 QT           += widgets
 

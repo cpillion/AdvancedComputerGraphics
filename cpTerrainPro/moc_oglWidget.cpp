@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_oglWidget_t {
-    QByteArrayData data[10];
-    char stringdata0[115];
+    QByteArrayData data[15];
+    char stringdata0[147];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -37,14 +37,20 @@ QT_MOC_LITERAL(2, 27, 0), // ""
 QT_MOC_LITERAL(3, 28, 5), // "angle"
 QT_MOC_LITERAL(4, 34, 16), // "yRotationChanged"
 QT_MOC_LITERAL(5, 51, 16), // "zRotationChanged"
-QT_MOC_LITERAL(6, 68, 12), // "setXRotation"
-QT_MOC_LITERAL(7, 81, 12), // "setYRotation"
-QT_MOC_LITERAL(8, 94, 12), // "setZRotation"
-QT_MOC_LITERAL(9, 107, 7) // "cleanup"
+QT_MOC_LITERAL(6, 68, 7), // "setMode"
+QT_MOC_LITERAL(7, 76, 1), // "m"
+QT_MOC_LITERAL(8, 78, 8), // "setMsize"
+QT_MOC_LITERAL(9, 87, 3), // "pct"
+QT_MOC_LITERAL(10, 91, 8), // "setHsize"
+QT_MOC_LITERAL(11, 100, 12), // "setXRotation"
+QT_MOC_LITERAL(12, 113, 12), // "setYRotation"
+QT_MOC_LITERAL(13, 126, 12), // "setZRotation"
+QT_MOC_LITERAL(14, 139, 7) // "cleanup"
 
     },
     "oglWidget\0xRotationChanged\0\0angle\0"
     "yRotationChanged\0zRotationChanged\0"
+    "setMode\0m\0setMsize\0pct\0setHsize\0"
     "setXRotation\0setYRotation\0setZRotation\0"
     "cleanup"
 };
@@ -56,7 +62,7 @@ static const uint qt_meta_data_oglWidget[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       7,   14, // methods
+      10,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -64,15 +70,18 @@ static const uint qt_meta_data_oglWidget[] = {
        3,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   49,    2, 0x06 /* Public */,
-       4,    1,   52,    2, 0x06 /* Public */,
-       5,    1,   55,    2, 0x06 /* Public */,
+       1,    1,   64,    2, 0x06 /* Public */,
+       4,    1,   67,    2, 0x06 /* Public */,
+       5,    1,   70,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       6,    1,   58,    2, 0x0a /* Public */,
-       7,    1,   61,    2, 0x0a /* Public */,
-       8,    1,   64,    2, 0x0a /* Public */,
-       9,    0,   67,    2, 0x0a /* Public */,
+       6,    1,   73,    2, 0x0a /* Public */,
+       8,    1,   76,    2, 0x0a /* Public */,
+      10,    1,   79,    2, 0x0a /* Public */,
+      11,    1,   82,    2, 0x0a /* Public */,
+      12,    1,   85,    2, 0x0a /* Public */,
+      13,    1,   88,    2, 0x0a /* Public */,
+      14,    0,   91,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::Int,    3,
@@ -80,6 +89,9 @@ static const uint qt_meta_data_oglWidget[] = {
     QMetaType::Void, QMetaType::Int,    3,
 
  // slots: parameters
+    QMetaType::Void, QMetaType::Int,    7,
+    QMetaType::Void, QMetaType::Int,    9,
+    QMetaType::Void, QMetaType::Int,    9,
     QMetaType::Void, QMetaType::Int,    3,
     QMetaType::Void, QMetaType::Int,    3,
     QMetaType::Void, QMetaType::Int,    3,
@@ -97,10 +109,13 @@ void oglWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         case 0: _t->xRotationChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 1: _t->yRotationChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 2: _t->zRotationChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 3: _t->setXRotation((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 4: _t->setYRotation((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 5: _t->setZRotation((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 6: _t->cleanup(); break;
+        case 3: _t->setMode((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 4: _t->setMsize((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 5: _t->setHsize((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 6: _t->setXRotation((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 7: _t->setYRotation((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 8: _t->setZRotation((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 9: _t->cleanup(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -157,13 +172,13 @@ int oglWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 10)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 10;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 10)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 7;
+        _id -= 10;
     }
     return _id;
 }

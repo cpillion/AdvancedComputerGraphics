@@ -56,7 +56,6 @@
 #include <QOpenGLBuffer>
 #include <QOpenGLTexture>
 #include <QMatrix4x4>
-#include "logo.h"
 #include "CUgl.h"
 
 //QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
@@ -73,6 +72,9 @@ public:
     QSize sizeHint() const override;
 
 public slots:
+    void setMode(int m);                   //  Slot mode
+    void setMsize(int pct);                  //  Slot to set position
+    void setHsize(int pct);
     void setXRotation(int angle);
     void setYRotation(int angle);
     void setZRotation(int angle);
@@ -93,16 +95,19 @@ protected:
 private:
     void setupVertexAttribs();
 
+    int     mode;  //  Mode
+    float   MAP_SCALE;
+    float   H_SCALE;
+
     float zh;
     int cube_size;
     int m_xRot;
     int m_yRot;
     int m_zRot;
     QPoint m_lastPos;
-    Logo m_logo;
     QOpenGLVertexArrayObject m_vao;
     QOpenGLBuffer m_logoVbo;
-    QOpenGLShaderProgram *m_program;
+    QOpenGLShaderProgram *crateShader;
     QOpenGLTexture *crateTex;
     int m_projMatrixLoc;
     int m_mvMatrixLoc;
