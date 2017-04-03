@@ -6,5 +6,7 @@
         <file>shaders/hw09.frag</file>
         <file>shaders/cube.frag</file>
         <file>shaders/cube.vert</file>
+        <file>shaders/pass.vert</file>
+        <file>shaders/pass.frag</file>
     </qresource>
 </RCC>

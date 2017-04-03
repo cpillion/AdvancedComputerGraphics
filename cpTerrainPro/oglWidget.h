@@ -78,7 +78,6 @@ public slots:
 protected:
     void initializeGL() override;
     void paintGL() override;
-    void resizeGL(int width, int height) override;
 
 private:
     void setupVertexAttribs();
@@ -88,7 +87,6 @@ private:
     float   MAP_SCALE;
     float   H_SCALE;
 
-    //float zh;
     int cube_size;
     QPoint m_lastPos;
     QOpenGLVertexArrayObject cubeVAO;
@@ -96,15 +94,15 @@ private:
     QOpenGLBuffer cubeBuff;
     QOpenGLBuffer sphereBuff;
     QOpenGLShaderProgram *crateShader;
+    QOpenGLShaderProgram *passShader;
     QOpenGLTexture *crateTex;
     int m_projMatrixLoc;
     int m_mvMatrixLoc;
     int m_normalMatrixLoc;
     int m_vMatrixLoc;
     int m_lightPosLoc;
-    QMatrix4x4 m_proj;
+    //QMatrix4x4 m_proj;
     QMatrix4x4 m_camera;
-    QMatrix4x4 m_world;
     bool m_transparent;
 };
 

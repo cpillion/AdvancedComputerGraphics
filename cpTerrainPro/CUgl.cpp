@@ -1,7 +1,6 @@
 //
 //  CU OpenGL Widget
 //
-//#define GL_GLEXT_PROTOTYPES
 #include "CUgl.h"
 #define Cos(th) cos(M_PI/180*(th))
 #define Sin(th) sin(M_PI/180*(th))
@@ -146,14 +145,15 @@ void CUgl::setPerspective(int on)
 //
 //  Set view
 //
-void CUgl::doView()
+QMatrix4x4 CUgl::doView()
 {
-   glLoadIdentity();
-   if (fov) glTranslated(0,0,-2*dim);
-   glRotated(ph,1,0,0);
-   glRotated(th,0,1,0);
+   QMatrix4x4 view;
+   if (fov) view.translate(0,0,-2*dim);
+   view.rotate(ph, 1, 0, 0);
+   view.rotate(th, 0, 1, 0);
    //  Emit angles to display
    emit angles(QString::number(th)+","+QString::number(ph));
+   return view;
 }
 
 //
@@ -262,20 +262,11 @@ void CUgl::doProjection()
    //  Viewport is whole screen
    glViewport(0,0,width(),height());
    //  Set Projection
-   glMatrixMode(GL_PROJECTION);
-   glLoadIdentity();
+   proj.setToIdentity();
    if (fov)
-   {
-      double zmin = dim/16;
-      double zmax = 16*dim;
-      double ydim = zmin*tan(fov*M_PI/360);
-      double xdim = ydim*asp;
-      glFrustum(-xdim,+xdim,-ydim,+ydim,zmin,zmax);
-   }
+      proj.perspective(fov,asp,dim/4,4*dim);
    else
-      glOrtho(-dim*asp, +dim*asp, -dim, +dim, -dim, +dim);
-   glMatrixMode(GL_MODELVIEW);
-   glLoadIdentity();
+      proj.ortho(-dim*asp, +dim*asp, -dim, +dim, -dim, +dim);
 }
 
 /******************************************************************/

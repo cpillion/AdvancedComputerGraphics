@@ -9,7 +9,7 @@
 
 class sphere
 {
-    const static int sphereSize = 684;
+    const static int sphereSize = 5256;
 private:
     QOpenGLBuffer sphereBuffer;
     void setupVertexAttribs();

@@ -43,6 +43,8 @@ protected:
    float            asp;      // Sceen aspect ratio
    int              th,ph;    // Display angles
    int              mode;     // Selected shader
+   QMatrix4x4       proj;
+   //QMatrix4x4       view;
    QVector<QOpenGLShaderProgram*> shader; // Shaders
 public:
    CUgl(QWidget* parent=0);        // Constructor
@@ -70,7 +72,7 @@ protected:
    void mouseMoveEvent(QMouseEvent*);               // Mouse moved
    void wheelEvent(QWheelEvent*);                   // Mouse wheel
    void Fatal(QString message);                     // Error handler
-   void doView();                                   // Apply modelview
+   QMatrix4x4 doView();                                   // Apply modelview
    QVector4D doLight();                             // Enable light
    void doProjection();                             // Update projection
    float getTime() {return 0.001*time.elapsed();}   // Elapsed time in seconds

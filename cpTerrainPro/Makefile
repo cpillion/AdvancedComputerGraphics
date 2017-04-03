@@ -696,8 +696,10 @@ compiler_rcc_clean:
 qrc_cpTerrainPro.cpp: cpTerrainPro.qrc \
 		../../../Qt/5.8/clang_64/bin/rcc \
 		shaders/cube.frag \
+		shaders/pass.vert \
 		shaders/hw09.vert \
 		shaders/cube.vert \
+		shaders/pass.frag \
 		shaders/hw09.frag \
 		textures/crate.png \
 		textures/snowflake.png
