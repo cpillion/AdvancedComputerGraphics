@@ -14,7 +14,7 @@
 appWindow::appWindow()
 {
    //  Set window title
-   setWindowTitle(tr("Hw08: Textures for Data Storage (by Chris Pillion)"));
+   setWindowTitle(tr("Final Project: Terrain Rendering in OpenGL4 and Qt5 (by Chris Pillion)"));
 
    //  Create new OpenGL widget
    ogl = new oglWidget;

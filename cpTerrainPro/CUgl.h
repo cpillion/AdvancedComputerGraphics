@@ -8,7 +8,9 @@
 #include <QApplication>
 #include <QOpenGLWidget>
 #include <QOpenGLShaderProgram>
+#include <QOpenGLVertexArrayObject>
 #include <QOpenGLFunctions>
+#include <QOpenGLBuffer>
 #include <QString>
 #include <QVector>
 #include <QMouseEvent>
@@ -69,7 +71,7 @@ protected:
    void wheelEvent(QWheelEvent*);                   // Mouse wheel
    void Fatal(QString message);                     // Error handler
    void doView();                                   // Apply modelview
-   QVector3D doLight();                             // Enable light
+   QVector4D doLight();                             // Enable light
    void doProjection();                             // Update projection
    float getTime() {return 0.001*time.elapsed();}   // Elapsed time in seconds
 //   unsigned int loadImage(const QString file);      // Method to load texture

@@ -5,6 +5,7 @@
 #include "CUgl.h"
 #define Cos(th) cos(M_PI/180*(th))
 #define Sin(th) sin(M_PI/180*(th))
+#include <iostream>
 
 //
 //  Constructor
@@ -177,24 +178,11 @@ static void Vertex(double th,double ph)
 //
 static void ball(double x,double y,double z,double r)
 {
-   //  Save transformation
-   glPushMatrix();
+   QMatrix4x4 ballMat;
+   ballMat.setToIdentity();
    //  Offset, scale and rotate
-   glTranslated(x,y,z);
-   glScaled(r,r,r);
-   //  Bands of latitude
-   for (int ph=-90;ph<90;ph+=10)
-   {
-      glBegin(GL_QUAD_STRIP);
-      for (int th=0;th<=360;th+=20)
-      {
-         Vertex(th,ph);
-         Vertex(th,ph+10);
-      }
-      glEnd();
-   }
-   //  Undo transofrmations
-   glPopMatrix();
+   ballMat.translate(x, y, z);
+   ballMat.scale(r,r,r);
 }
 
 //
@@ -229,41 +217,15 @@ void CUgl::setLightIntensity(float a,float d,float s)
 //
 //  Apply light
 //
-QVector3D CUgl::doLight()
+QVector4D CUgl::doLight()
 {
    //  Light position
    float x = Lr*Cos(zh);
    float y = ylight;
    float z = Lr*Sin(zh);
-   float Position[] = {x,y,z,1.0};
-
-   //  Draw light position (no lighting yet)
-   glColor3f(1,1,1);
-   ball(x,y,z,0.1);
-
-   //  OpenGL should normalize normal vectors
-   glEnable(GL_NORMALIZE);
-   //  Enable lighting
-   glEnable(GL_LIGHTING);
-   //  Enable light 0
-   glEnable(GL_LIGHT0);
-
-   //  Set ambient, diffuse, specular components and position of light 0
-   float Ambient[]  = {La,La,La,1.0};
-   float Diffuse[]  = {Ld,Ld,Ld,1.0};
-   float Specular[] = {Ls,Ls,Ls,1.0};
-   glLightfv(GL_LIGHT0,GL_AMBIENT ,Ambient);
-   glLightfv(GL_LIGHT0,GL_DIFFUSE ,Diffuse);
-   glLightfv(GL_LIGHT0,GL_SPECULAR,Specular);
-   glLightfv(GL_LIGHT0,GL_POSITION,Position);
-   //  glColor sets ambient and diffuse color materials
-   glColorMaterial(GL_FRONT_AND_BACK,GL_AMBIENT_AND_DIFFUSE);
-   glEnable(GL_COLOR_MATERIAL);
-
-   //  Light angle
-   emit light(int(zh));
-
-   return QVector3D(x,y,z);
+   QVector4D Position = QVector4D(x,y,z,1.0);
+   //ball(x,y,z,.5);
+   return Position;
 }
 
 //

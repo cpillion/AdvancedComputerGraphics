@@ -53,7 +53,9 @@ SOURCES       = main.cpp \
 		Object.cpp \
 		oglWidget.cpp \
 		particles.cpp \
-		appWindow.cpp qrc_cpTerrainPro.cpp \
+		appWindow.cpp \
+		cube.cpp \
+		sphere.cpp qrc_cpTerrainPro.cpp \
 		moc_CUgl.cpp \
 		moc_oglWidget.cpp \
 		moc_appWindow.cpp
@@ -63,6 +65,8 @@ OBJECTS       = main.o \
 		oglWidget.o \
 		particles.o \
 		appWindow.o \
+		cube.o \
+		sphere.o \
 		qrc_cpTerrainPro.o \
 		moc_CUgl.o \
 		moc_oglWidget.o \
@@ -247,12 +251,16 @@ DIST          = ../../../Qt/5.8/clang_64/mkspecs/features/spec_pre.prf \
 		Type.h \
 		oglWidget.h \
 		particles.h \
-		appWindow.h main.cpp \
+		appWindow.h \
+		cube.h \
+		sphere.h main.cpp \
 		CUgl.cpp \
 		Object.cpp \
 		oglWidget.cpp \
 		particles.cpp \
-		appWindow.cpp
+		appWindow.cpp \
+		cube.cpp \
+		sphere.cpp
 QMAKE_TARGET  = cpTerrainPro
 DESTDIR       = 
 TARGET        = cpTerrainPro.app/Contents/MacOS/cpTerrainPro
@@ -657,8 +665,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents cpTerrainPro.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.8/clang_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents CUgl.h Object.h Type.h oglWidget.h particles.h appWindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp CUgl.cpp Object.cpp oglWidget.cpp particles.cpp appWindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents CUgl.h Object.h Type.h oglWidget.h particles.h appWindow.h cube.h sphere.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp CUgl.cpp Object.cpp oglWidget.cpp particles.cpp appWindow.cpp cube.cpp sphere.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -710,8 +718,12 @@ moc_CUgl.cpp: ../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/QApplicat
 		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qopenglwidget.h \
 		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLShaderProgram \
 		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglshaderprogram.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLVertexArrayObject \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglvertexarrayobject.h \
 		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLFunctions \
 		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglfunctions.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLBuffer \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglbuffer.h \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QString \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QVector \
@@ -884,8 +896,12 @@ CUgl.o: CUgl.cpp CUgl.h \
 		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qopenglwidget.h \
 		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLShaderProgram \
 		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglshaderprogram.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLVertexArrayObject \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglvertexarrayobject.h \
 		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLFunctions \
 		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglfunctions.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLBuffer \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglbuffer.h \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QString \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qstring.h \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QVector \
@@ -944,7 +960,9 @@ oglWidget.o: oglWidget.cpp oglWidget.h \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qobject.h \
 		Object.h \
 		Type.h \
-		particles.h
+		particles.h \
+		cube.h \
+		sphere.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o oglWidget.o oglWidget.cpp
 
 particles.o: particles.cpp particles.h \
@@ -1002,6 +1020,22 @@ appWindow.o: appWindow.cpp ../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Head
 		Object.h \
 		Type.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o appWindow.o appWindow.cpp
+
+cube.o: cube.cpp cube.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLBuffer \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglbuffer.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLFunctions \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglfunctions.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o cube.o cube.cpp
+
+sphere.o: sphere.cpp sphere.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLBuffer \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglbuffer.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLFunctions \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglfunctions.h \
+		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QVector \
+		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qvector.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sphere.o sphere.cpp
 
 qrc_cpTerrainPro.o: qrc_cpTerrainPro.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_cpTerrainPro.o qrc_cpTerrainPro.cpp

@@ -58,8 +58,6 @@
 #include <QMatrix4x4>
 #include "CUgl.h"
 
-//QT_FORWARD_DECLARE_CLASS(QOpenGLShaderProgram)
-
 class oglWidget : public CUgl, protected QOpenGLFunctions
 {
     Q_OBJECT
@@ -75,38 +73,28 @@ public slots:
     void setMode(int m);                   //  Slot mode
     void setMsize(int pct);                  //  Slot to set position
     void setHsize(int pct);
-    void setXRotation(int angle);
-    void setYRotation(int angle);
-    void setZRotation(int angle);
     void cleanup();
-
-signals:
-    void xRotationChanged(int angle);
-    void yRotationChanged(int angle);
-    void zRotationChanged(int angle);
 
 protected:
     void initializeGL() override;
     void paintGL() override;
     void resizeGL(int width, int height) override;
-    void mousePressEvent(QMouseEvent *event) override;
-    void mouseMoveEvent(QMouseEvent *event) override;
 
 private:
     void setupVertexAttribs();
+    void setCam();
 
     int     mode;  //  Mode
     float   MAP_SCALE;
     float   H_SCALE;
 
-    float zh;
+    //float zh;
     int cube_size;
-    int m_xRot;
-    int m_yRot;
-    int m_zRot;
     QPoint m_lastPos;
-    QOpenGLVertexArrayObject m_vao;
-    QOpenGLBuffer m_logoVbo;
+    QOpenGLVertexArrayObject cubeVAO;
+    QOpenGLVertexArrayObject sphereVAO;
+    QOpenGLBuffer cubeBuff;
+    QOpenGLBuffer sphereBuff;
     QOpenGLShaderProgram *crateShader;
     QOpenGLTexture *crateTex;
     int m_projMatrixLoc;
