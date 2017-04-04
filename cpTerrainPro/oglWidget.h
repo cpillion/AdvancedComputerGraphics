@@ -80,10 +80,7 @@ protected:
     void paintGL() override;
 
 private:
-    void setupVertexAttribs();
-    void setCam();
-
-    int     mode;  //  Mode
+    int     mode;
     float   MAP_SCALE;
     float   H_SCALE;
 
@@ -91,19 +88,17 @@ private:
     QPoint m_lastPos;
     QOpenGLVertexArrayObject cubeVAO;
     QOpenGLVertexArrayObject sphereVAO;
+    QOpenGLVertexArrayObject snowVAO;
     QOpenGLBuffer cubeBuff;
     QOpenGLBuffer sphereBuff;
+    QOpenGLBuffer snowBuff;
+    QOpenGLBuffer terrainBuff;
     QOpenGLShaderProgram *crateShader;
     QOpenGLShaderProgram *passShader;
+    QOpenGLShaderProgram *snowShader;
+    QOpenGLShaderProgram *terrainShader;
     QOpenGLTexture *crateTex;
-    int m_projMatrixLoc;
-    int m_mvMatrixLoc;
-    int m_normalMatrixLoc;
-    int m_vMatrixLoc;
-    int m_lightPosLoc;
-    //QMatrix4x4 m_proj;
-    QMatrix4x4 m_camera;
-    bool m_transparent;
+    QOpenGLTexture *snowflakeTex;
 };
 
 #endif

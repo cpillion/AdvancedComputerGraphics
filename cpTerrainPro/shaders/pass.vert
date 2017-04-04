@@ -20,7 +20,7 @@ vec3 phong()
 {
         vec3 Ambient = vec3(.3, .3, .3);
         vec3 Diffuse = vec3(1., 1., 1.);
-        vec3 Specular = vec3(1., 1., 1.);
+        vec3 Specular = vec3(.7, .7, .7);
 
         //  vertex coordinate on body
         vec3 P = vec3(ModelViewMatrix * Vertex);

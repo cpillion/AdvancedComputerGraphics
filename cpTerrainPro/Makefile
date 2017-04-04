@@ -55,7 +55,8 @@ SOURCES       = main.cpp \
 		particles.cpp \
 		appWindow.cpp \
 		cube.cpp \
-		sphere.cpp qrc_cpTerrainPro.cpp \
+		sphere.cpp \
+		Noise.cpp qrc_cpTerrainPro.cpp \
 		moc_CUgl.cpp \
 		moc_oglWidget.cpp \
 		moc_appWindow.cpp
@@ -67,6 +68,7 @@ OBJECTS       = main.o \
 		appWindow.o \
 		cube.o \
 		sphere.o \
+		Noise.o \
 		qrc_cpTerrainPro.o \
 		moc_CUgl.o \
 		moc_oglWidget.o \
@@ -253,14 +255,16 @@ DIST          = ../../../Qt/5.8/clang_64/mkspecs/features/spec_pre.prf \
 		particles.h \
 		appWindow.h \
 		cube.h \
-		sphere.h main.cpp \
+		sphere.h \
+		Noise.h main.cpp \
 		CUgl.cpp \
 		Object.cpp \
 		oglWidget.cpp \
 		particles.cpp \
 		appWindow.cpp \
 		cube.cpp \
-		sphere.cpp
+		sphere.cpp \
+		Noise.cpp
 QMAKE_TARGET  = cpTerrainPro
 DESTDIR       = 
 TARGET        = cpTerrainPro.app/Contents/MacOS/cpTerrainPro
@@ -665,8 +669,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents cpTerrainPro.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.8/clang_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents CUgl.h Object.h Type.h oglWidget.h particles.h appWindow.h cube.h sphere.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp CUgl.cpp Object.cpp oglWidget.cpp particles.cpp appWindow.cpp cube.cpp sphere.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents CUgl.h Object.h Type.h oglWidget.h particles.h appWindow.h cube.h sphere.h Noise.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp CUgl.cpp Object.cpp oglWidget.cpp particles.cpp appWindow.cpp cube.cpp sphere.cpp Noise.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -697,10 +701,10 @@ qrc_cpTerrainPro.cpp: cpTerrainPro.qrc \
 		../../../Qt/5.8/clang_64/bin/rcc \
 		shaders/cube.frag \
 		shaders/pass.vert \
-		shaders/hw09.vert \
+		shaders/snow.frag \
 		shaders/cube.vert \
 		shaders/pass.frag \
-		shaders/hw09.frag \
+		shaders/snow.vert \
 		textures/crate.png \
 		textures/snowflake.png
 	/Users/Chris/Qt/5.8/clang_64/bin/rcc -name cpTerrainPro cpTerrainPro.qrc -o qrc_cpTerrainPro.cpp
@@ -964,12 +968,17 @@ oglWidget.o: oglWidget.cpp oglWidget.h \
 		Type.h \
 		particles.h \
 		cube.h \
-		sphere.h
+		sphere.h \
+		Noise.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o oglWidget.o oglWidget.cpp
 
 particles.o: particles.cpp particles.h \
 		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLFunctions \
-		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglfunctions.h
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglfunctions.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLBuffer \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglbuffer.h \
+		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QVector \
+		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qvector.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o particles.o particles.cpp
 
 appWindow.o: appWindow.cpp ../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/QComboBox \
@@ -1038,6 +1047,9 @@ sphere.o: sphere.cpp sphere.h \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QVector \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qvector.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o sphere.o sphere.cpp
+
+Noise.o: Noise.cpp Noise.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Noise.o Noise.cpp
 
 qrc_cpTerrainPro.o: qrc_cpTerrainPro.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_cpTerrainPro.o qrc_cpTerrainPro.cpp

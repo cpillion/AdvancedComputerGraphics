@@ -22,15 +22,15 @@ void sphere::createVert()
           ballVerts.append(Sin(th)*Cos(ph));
           ballVerts.append(Cos(th)*Cos(ph));
           ballVerts.append(Sin(ph));
-          ballVerts.append(1.0);
-          ballVerts.append(0.0);
-          ballVerts.append(0.0);
-          ballVerts.append(Sin(th)*Cos(ph+10));
-          ballVerts.append(Cos(th)*Cos(ph+10));
-          ballVerts.append(Sin(ph+10));
-          ballVerts.append(1.0);
-          ballVerts.append(0.0);
-          ballVerts.append(0.0);
+          ballVerts.append(1);
+          ballVerts.append(0);
+          ballVerts.append(0);
+          ballVerts.append(Sin(th)*Cos(ph+5));
+          ballVerts.append(Cos(th)*Cos(ph+5));
+          ballVerts.append(Sin(ph+5));
+          ballVerts.append(1);
+          ballVerts.append(0);
+          ballVerts.append(0);
        }
     }
     for (int i = 0; i<ballVerts.size(); i++)

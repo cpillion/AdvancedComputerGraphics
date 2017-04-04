@@ -2,6 +2,7 @@
 #define PARTICLES_H
 
 #include <QOpenGLFunctions>
+#include <QOpenGLBuffer>
 
 class particles
 {
@@ -11,10 +12,13 @@ private:
     float*  Color;     //  Colors
     float*  Vel;       //  Velocities
     float*  Start;     //  Start time
+    QOpenGLBuffer partBuffer;
 public:
     particles();
     void InitPart();
-    void DrawPart();
+    QOpenGLBuffer getBuffer();
+    void doBuffer();
+    void setupVertexAttribs();
 };
 
 #endif // PARTICLES_H

@@ -29,7 +29,7 @@ CUgl::CUgl(QWidget* parent)
    Ld = 1.0;
    Ls = 1.0;
    //  Light position
-   Lr = 2;
+   Lr = 6;
    zh = 0;
    ylight = 2;
    //  Light animation
@@ -136,7 +136,7 @@ void CUgl::doScene()
 //
 void CUgl::setPerspective(int on)
 {
-   fov = on ? 0 : 40;
+   fov = on ? 40 : 0;
    doProjection();
    //  Request redisplay
    update();

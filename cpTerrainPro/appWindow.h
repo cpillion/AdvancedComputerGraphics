@@ -12,9 +12,12 @@ Q_OBJECT
 private:
    QSlider*     Msize;
    QSlider*     Hsize;
-   oglWidget*  ogl;
+   oglWidget*   ogl;
+   QPushButton* light;
 public:
     appWindow();
+private slots:
+    void lmove();
 };
 
 #endif

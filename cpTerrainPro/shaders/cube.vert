@@ -5,7 +5,6 @@ uniform mat4 ModelViewMatrix;
 uniform mat4 ViewMatrix;
 uniform mat4 ProjectionMatrix;
 uniform mat3 NormalMatrix;
-
 uniform vec4 Position;
 
 //  Vertex attributes (input)
@@ -20,7 +19,7 @@ out vec2 Texcoord;
 
 vec3 phong()
 {
-        vec3 Ambient = vec3(0, 0, 0);
+        vec3 Ambient = vec3(.3, .3, .3);
         vec3 Diffuse = vec3(1., 1., 1.);
         vec3 Specular = vec3(1., 1., 1.);
 

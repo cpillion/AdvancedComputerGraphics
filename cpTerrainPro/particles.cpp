@@ -1,4 +1,6 @@
 #include "particles.h"
+#include <iostream>
+#include <QVector>
 
 
 //  Set up array indexes for program
@@ -16,20 +18,20 @@ static float frand(float rng,float off)
 
 particles::particles()
 {
-    N = 30;
-    Vert  = new float[3*N*N];
-    Color = new float[3*N*N];
-    Vel   = new float[3*N*N];
-    Start = new float[N*N];
+    N = 50;
     InitPart();
+    doBuffer();
+    setupVertexAttribs();
 }
 
+float partInfo[9000];
 
 /*
  *  Initialize particles
  */
 void particles::InitPart(void)
 {
+   QVector<GLfloat> partData;
    //  Array Pointers
    float* vert  = Vert;
    float* color = Color;
@@ -37,64 +39,55 @@ void particles::InitPart(void)
    float* start = Start;
    //  Loop over NxN patch
    int n = N;
-   int dim = 10;
+   int dim = 4;
    for (int i=0;i<n;i++)
       for (int j=0;j<n;j++)
       {
          //  Location x,y,z
          //  Spread snowfall out over twice the viewing plane
-         *vert++ = frand(2*dim, -dim);
-         *vert++ = dim;
-         *vert++ = frand(2*dim, -dim);
+         partData.append(frand(2*dim, -dim));
+         partData.append(2*dim);
+         partData.append(frand(2*dim, -dim));
          //  Color r,g,b (0.5-1.0)
-         *color++ = frand(0.5,0.5);
-         *color++ = frand(0.5,0.5);
-         *color++ = frand(0.5,0.5);
+         partData.append(frand(0.5,0.5));
+         partData.append(frand(0.5,0.5));
+         partData.append(frand(0.5,0.5));
          //  Velocity
-         *vel++ = frand( 0.0,0.0);
-         *vel++ = frand( 0.0,0.0);
-         *vel++ = frand( 0.0,0.0);
+         partData.append(frand( 0.0,0.0));
+         partData.append(frand( 0.0,0.0));
+         partData.append(frand( 0.0,0.0));
          //  Launch time
-         *start++ = frand(2*dim,0.0);
+         partData.append(frand(2*dim,0.0));
       }
+   for (int i = 0; i<partData.size(); i++)
+       partInfo[i] = partData.at(i);
 }
 
-
-/*
- *  Draw particles
- */
-void particles::DrawPart(void)
+void particles::doBuffer()
 {
-   QOpenGLFunctions glf(QOpenGLContext::currentContext());
-   //  Set particle size
-   glPointSize(9);
-   //  Point vertex location to local array Vert
-   glVertexPointer(3,GL_FLOAT,0,Vert);
-   //  Point color array to local array Color
-   glColorPointer(3,GL_FLOAT,0,Color);
-   //  Point attribute arrays to local arrays
-   glf.glVertexAttribPointer(VELOCITY_ARRAY,3,GL_FLOAT,GL_FALSE,0,Vel);
-   glf.glVertexAttribPointer(START_ARRAY,1,GL_FLOAT,GL_FALSE,0,Start);
-   //  Enable arrays used by DrawArrays
-   glEnableClientState(GL_VERTEX_ARRAY);
-   glEnableClientState(GL_COLOR_ARRAY);
-   glf.glEnableVertexAttribArray(VELOCITY_ARRAY);
-   glf.glEnableVertexAttribArray(START_ARRAY);
-   //  Set transparent large particles
-      glEnable(GL_POINT_SPRITE);
-      glTexEnvi(GL_POINT_SPRITE,GL_COORD_REPLACE,GL_TRUE);
-      glEnable(GL_BLEND);
-      glBlendFunc(GL_SRC_ALPHA,GL_ONE);
-      glDepthMask(0);
-      //  Draw arrays
-      glDrawArrays(GL_POINTS,0,N*N);
-      glDisable(GL_POINT_SPRITE);
-      glDisable(GL_BLEND);
-      glDepthMask(1);
+    partBuffer.create();
+    partBuffer.bind();
+    partBuffer.allocate(partInfo, sizeof(partInfo));
 
-   //  Disable arrays
-   glDisableClientState(GL_VERTEX_ARRAY);
-   glDisableClientState(GL_COLOR_ARRAY);
-   glf.glDisableVertexAttribArray(VELOCITY_ARRAY);
-   glf.glDisableVertexAttribArray(START_ARRAY);
 }
+
+void particles::setupVertexAttribs()
+{
+    partBuffer.bind();
+    QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
+    f->glEnableVertexAttribArray(0);
+    f->glEnableVertexAttribArray(1);
+    f->glEnableVertexAttribArray(4);
+    f->glEnableVertexAttribArray(5);
+    f->glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 10 * sizeof(GLfloat), 0);
+    f->glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 10 * sizeof(GLfloat), reinterpret_cast<void *>(3 * sizeof(GLfloat)));
+    f->glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 10 * sizeof(GLfloat), reinterpret_cast<void *>(6 * sizeof(GLfloat)));
+    f->glVertexAttribPointer(5, 1, GL_FLOAT, GL_FALSE, 10 * sizeof(GLfloat), reinterpret_cast<void *>(9 * sizeof(GLfloat)));
+    partBuffer.release();
+}
+
+QOpenGLBuffer particles::getBuffer()
+{
+    return partBuffer;
+}
+

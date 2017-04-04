@@ -6,7 +6,8 @@ HEADERS       = \
     particles.h \
     appWindow.h \
     cube.h \
-    sphere.h
+    sphere.h \
+    Noise.h
 SOURCES       = \
                 main.cpp \
     CUgl.cpp \
@@ -15,9 +16,14 @@ SOURCES       = \
     particles.cpp \
     appWindow.cpp \
     cube.cpp \
-    sphere.cpp
+    sphere.cpp \
+    Noise.cpp
 
 QT           += widgets
 
 RESOURCES += \
     cpTerrainPro.qrc
+
+DISTFILES += \
+    shaders/terrain.frag \
+    shaders/terrain.vert
