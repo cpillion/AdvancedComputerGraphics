@@ -6,7 +6,7 @@ uniform mat4 ProjectionMatrix;
 
 //  Vertex attributes (input)
 in vec4 Vertex;
-in vec3 Color;
+
 
 //  Output to next shader
 out vec3 FrontColor;
@@ -33,7 +33,7 @@ void main(void)
    // Displace more with higher wind. Assume percentage of wind for lateral accel
    vert.x += t*0.1+0.5*(0.1*0.1)*t*t;
    //  Noisy movement
-   vec3 X = vec3(0.1*t,vert.x,vert.y)+Color.rgb;
+   vec3 X = vec3(0.1*t,vert.x,vert.y);
    // Have snow fall at a more constant rate since air resistance and weight slow its accel
    vert.y -= 5.*t;
    if (vert.y < -2.0*dim) FrontColor = vec3(0, 0, 0);
@@ -42,5 +42,5 @@ void main(void)
    //  Noisy yellow trending to red
    FrontColor = vec3(1.0, 1.0, 1.0);
    //  Transform particle location
-   gl_Position =  ProjectionMatrix * ModelViewMatrix * vert;
+   gl_Position =  ProjectionMatrix * mat4(mat3(ModelViewMatrix)) * vert;
 }

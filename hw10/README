@@ -1,0 +1,31 @@
+hw10: OpenCL matrix transpose
+
+Chris Pillion
+CSCI5229 Spring 2017
+
+SOURCE LANGUAGE:
+  C++
+
+COMPILE USING:
+  make
+
+RUN USING:
+  hw10
+  (Sample input for speedup: ./hw10 22 300)
+
+ACTIONS:
+The size of the matrix is width*blocks
+Command line parameters
+  -v      Verbose - show hardware detila
+  width   Block width (width squared <= max threads/block)
+  blocks  Number of blocks
+
+The algorithm simply switches the placement of the row/column values in the matrix. Because the matrix is "unpacked" in an array, it simply involves switching the major lookup value for the index (aka, rows*Width vs columns*Width for the indexed value in the array).  Although a simple operation (and one already included in many C libraries), it is very useful and frequent in problems involving linear algebra.  However, unless you are dealing with very large matricies or large sets, the speedup wont be noticed. 
+  
+TIME TO COMPLETE:
+  ~4 hours 
+  
+Notes: 
+Had some trouble getting this working on the Intel HD Graphics 4000 card
+As mentioned in class, takes a large number of data to see actual speedup
+Also attempted to create a function to calculate the "Matrix of Minors" but kept messing it up, so reverted back to a simple transpose.

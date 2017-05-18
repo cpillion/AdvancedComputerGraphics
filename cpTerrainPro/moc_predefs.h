@@ -68,6 +68,8 @@
 #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_2 1
 #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_4 1
 #define __GCC_HAVE_SYNC_COMPARE_AND_SWAP_8 1
+#define __GLIBCXX_BITSIZE_INT_N_0 128
+#define __GLIBCXX_TYPE_INT_N_0 __int128
 #define __GNUC_GNU_INLINE__ 1
 #define __GNUC_MINOR__ 2
 #define __GNUC_PATCHLEVEL__ 1
@@ -162,6 +164,7 @@
 #define __MACH__ 1
 #define __MMX__ 1
 #define __NO_MATH_INLINES 1
+#define __OBJC_BOOL_IS_BOOL 0
 #define __OPTIMIZE__ 1
 #define __ORDER_BIG_ENDIAN__ 4321
 #define __ORDER_LITTLE_ENDIAN__ 1234
@@ -302,7 +305,7 @@
 #define __UINT_LEAST8_MAX__ 255
 #define __UINT_LEAST8_TYPE__ unsigned char
 #define __USER_LABEL_PREFIX__ _
-#define __VERSION__ "4.2.1 Compatible Apple LLVM 8.0.0 (clang-800.0.42.1)"
+#define __VERSION__ "4.2.1 Compatible Apple LLVM 8.1.0 (clang-802.0.42)"
 #define __WCHAR_MAX__ 2147483647
 #define __WCHAR_TYPE__ int
 #define __WCHAR_WIDTH__ 32
@@ -310,13 +313,13 @@
 #define __WINT_WIDTH__ 32
 #define __amd64 1
 #define __amd64__ 1
-#define __apple_build_version__ 8000042
+#define __apple_build_version__ 8020042
 #define __block __attribute__((__blocks__(byref)))
 #define __clang__ 1
 #define __clang_major__ 8
-#define __clang_minor__ 0
+#define __clang_minor__ 1
 #define __clang_patchlevel__ 0
-#define __clang_version__ "8.0.0 (clang-800.0.42.1)"
+#define __clang_version__ "8.1.0 (clang-802.0.42)"
 #define __core2 1
 #define __core2__ 1
 #define __cplusplus 201103L

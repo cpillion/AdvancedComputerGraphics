@@ -1,0 +1,71 @@
+#version 410
+
+layout( quads, fractional_even_spacing, cw ) in;
+
+in terrainVertex {
+    vec2 position;
+} In[];
+
+out worldVertex {
+    vec4 worldPosition;
+    vec3 worldNormal;
+    vec4 position;
+    vec3 normal;
+    vec2 texCoords;
+} Out;
+
+uniform sampler2D heightMap;
+
+// The number of triangles created per height-map texel
+uniform int maxTrianglesPerTexel = 10;
+
+// Distance between each tessellation point at max tess level
+uniform float horizontalScale;
+
+// Vertical scale to multiply height samples by
+uniform float verticalScale;
+
+// Transformation matrices
+uniform mat4 ModelMatrix;
+uniform mat4 ModelViewMatrix;
+uniform mat3 WorldNormalMatrix;
+uniform mat3 NormalMatrix;
+uniform mat4 ProjectionMatrix;
+
+const float maxTessLevel = 64.0;
+
+void main()
+{
+    // Calculate extent of this patch in texture coords [0,1]
+    vec2 patchExtent = maxTessLevel / ( textureSize( heightMap, 0 ) * maxTrianglesPerTexel );
+
+    // Calculate the texture coordinates
+    Out.texCoords = In[0].position.xy + gl_TessCoord.xy * patchExtent;
+
+    // Calculate the model-space position
+    vec4 position;
+    position.xz = Out.texCoords * horizontalScale;
+    position.y = verticalScale * texture( heightMap, Out.texCoords ).r;
+    position.w = 1.0;
+
+    // Transform the position to world coordinates and to eye space
+    Out.worldPosition = ModelMatrix * position;
+    Out.position = ModelViewMatrix * position;
+
+    // Calculate the normal
+    const ivec3 offset = ivec3( -1, 0, 1 ); // Texel offsets
+    float delta = 2.0 * horizontalScale / textureSize( heightMap, 0 ).x; // Horizontal displacement in world coords
+    float left   = verticalScale * textureOffset( heightMap, Out.texCoords, offset.xy ).r;
+    float right  = verticalScale * textureOffset( heightMap, Out.texCoords, offset.zy ).r;
+    float top    = verticalScale * textureOffset( heightMap, Out.texCoords, offset.yz ).r;
+    float bottom = verticalScale * textureOffset( heightMap, Out.texCoords, offset.yx ).r;
+
+    vec3 x = normalize( vec3( delta, right - left, 0.0 ) );
+    vec3 z = normalize( vec3( 0.0, top - bottom, delta ) );
+    vec3 n = cross( z, x );
+    Out.worldNormal = WorldNormalMatrix * n;
+    Out.normal = NormalMatrix * n;
+
+    // Transform to clip-space
+    gl_Position =  ProjectionMatrix * ModelViewMatrix * position;
+}

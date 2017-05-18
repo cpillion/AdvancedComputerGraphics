@@ -8,10 +8,6 @@ class particles
 {
 private:
     int N;
-    float*  Vert;      //  Vertices
-    float*  Color;     //  Colors
-    float*  Vel;       //  Velocities
-    float*  Start;     //  Start time
     QOpenGLBuffer partBuffer;
 public:
     particles();

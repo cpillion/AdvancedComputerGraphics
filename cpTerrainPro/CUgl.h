@@ -18,6 +18,7 @@
 #include <QElapsedTimer>
 #include <QMessageBox>
 #include <QObject>
+#include <QKeyEvent>
 #include "math.h"
 #include "Object.h"
 
@@ -41,11 +42,13 @@ protected:
    float            Dim;      // Default size
    float            dim;      // Display size
    float            asp;      // Sceen aspect ratio
-   int              th,ph;    // Display angles
+   int              th,ph;    // Camera angles
+   float              x, y, z;  // Camera Position
    int              mode;     // Selected shader
    QMatrix4x4       proj;
-   //QMatrix4x4       view;
+   QMatrix4x4       viewPortMat;
    QVector<QOpenGLShaderProgram*> shader; // Shaders
+
 public:
    CUgl(QWidget* parent=0);        // Constructor
    QSize sizeHint() const {return QSize(400,400);} // Default size of widget
@@ -64,6 +67,7 @@ public slots:
    void maxFPS(bool);                               // Set max fps
    void addShader(QString vert,QString frag,QString names=""); // Add shader
    void addShader3(QString vert,QString geom,QString frag);    // Add shader
+   void addShaderTess(QString vert, QString tcs, QString tes, QString geom, QString frag, QString names);    // Add shader
 protected:
    void initializeGL();                             // Initialization
    void resizeGL(int,int);                          // Window resize
@@ -71,12 +75,14 @@ protected:
    void mouseReleaseEvent(QMouseEvent*);            // Mouse released
    void mouseMoveEvent(QMouseEvent*);               // Mouse moved
    void wheelEvent(QWheelEvent*);                   // Mouse wheel
+   void keyPressEvent( QKeyEvent* );
    void Fatal(QString message);                     // Error handler
    QMatrix4x4 doView();                                   // Apply modelview
    QVector4D doLight();                             // Enable light
    void doProjection();                             // Update projection
    float getTime() {return 0.001*time.elapsed();}   // Elapsed time in seconds
-//   unsigned int loadImage(const QString file);      // Method to load texture
+   unsigned char* LoadTexBMP(const char* file);
+   void Reverse(void* x,const int n);
 private slots:
    void tick();                                     // Method to capture timer ticks
 signals:

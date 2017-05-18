@@ -1,0 +1,92 @@
+#version 410
+
+// Only one vertex per patch (lower-left corner)
+layout( vertices = 1 ) out;
+
+// xz position from vertex shader
+in terrainVertex {
+    vec2 position;
+} In[];
+
+// xz position to tessellation evaluation shader
+out terrainVertex {
+    vec2 position;
+} Out[];
+
+uniform sampler2D heightMap;
+
+const float tessellationLevel = 64.0;
+
+// The number of triangles created per height-map texel
+uniform int maxTrianglesPerTexel = 10;
+
+// Distance between each tessellation point at max tess level
+uniform float horizontalScale;
+
+// Vertical scale to multiply height samples by
+uniform float verticalScale;
+
+// Transformation matrix
+uniform mat4 ProjectionMatrix;
+uniform mat4 ModelViewMatrix;
+
+uniform float pixelsPerTriangleEdge = 30.0;
+
+uniform vec2 viewportSize;
+
+const float maxTessLevel = 64.0;
+
+
+// Fractional Tessellation Level calculated using techniques in the Direct
+// X Terrain Rendering Whitepaper
+float calcTessellationLevel( const in vec4 v1, const in vec4 v2 )
+{
+    vec4 p1 = 0.5 * ( v1 + v2 ); // Sphere Center Point
+    vec4 p2 = p1;
+    p2.y += distance( v1, v2 );
+    p1 = p1 / p1.w;
+    p2 = p2 / p2.w;
+    float l = distance(viewportSize * p1.xy, viewportSize * p2.xy);
+    return clamp( l / pixelsPerTriangleEdge, 0.0, 64.0 );
+}
+
+void main()
+{
+    // Pass along the vertex position unmodified
+    Out[gl_InvocationID].position = In[gl_InvocationID].position;
+
+    // Calculate extent of this patch in texture coords [0,1]
+    vec2 patchExtent = maxTessLevel / ( textureSize( heightMap, 0 ) * maxTrianglesPerTexel );
+
+    vec2 patchCornersXZ[4];
+    patchCornersXZ[0] = Out[gl_InvocationID].position;                              // min x, min z
+    patchCornersXZ[1] = Out[gl_InvocationID].position + vec2( 0.0, patchExtent.y ); // min x, max z
+    patchCornersXZ[2] = Out[gl_InvocationID].position + vec2( patchExtent.x, 0.0 ); // max x, min z
+    patchCornersXZ[3] = Out[gl_InvocationID].position + patchExtent;                // max x, max z
+
+    vec4 clipSpacePatchCorners[4];
+    for ( int i = 0; i < 4; i++ )
+    {
+        vec4 position;
+        position.xz = patchCornersXZ[i] * horizontalScale;
+        position.y = verticalScale * texture( heightMap, patchCornersXZ[i] ).r;
+        position.w = 1.0;
+
+        // Transform to clip-space
+        clipSpacePatchCorners[i] =  ProjectionMatrix * ModelViewMatrix * position;
+    }
+
+    gl_TessLevelOuter[0] = calcTessellationLevel( clipSpacePatchCorners[0], clipSpacePatchCorners[1] ); // x = min,   z = const
+    gl_TessLevelOuter[1] = calcTessellationLevel( clipSpacePatchCorners[0], clipSpacePatchCorners[2] ); // x = const, z = min
+    gl_TessLevelOuter[2] = calcTessellationLevel( clipSpacePatchCorners[2], clipSpacePatchCorners[3] ); // x = max,   z = const
+    gl_TessLevelOuter[3] = calcTessellationLevel( clipSpacePatchCorners[3], clipSpacePatchCorners[1] ); // x = const, z = max
+    gl_TessLevelInner[0] = max( gl_TessLevelOuter[0], gl_TessLevelOuter[2] ); // z = const
+    gl_TessLevelInner[1] = gl_TessLevelInner[0] ; // x = const
+
+//    gl_TessLevelOuter[0] = 32;
+//    gl_TessLevelOuter[1] = 32;
+//    gl_TessLevelOuter[2] = 32;
+//    gl_TessLevelOuter[3] = 32;
+//    gl_TessLevelInner[0] = 32;
+//    gl_TessLevelInner[1] = 32;
+}

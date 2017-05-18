@@ -56,7 +56,8 @@ SOURCES       = main.cpp \
 		appWindow.cpp \
 		cube.cpp \
 		sphere.cpp \
-		Noise.cpp qrc_cpTerrainPro.cpp \
+		Noise.cpp \
+		skybox.cpp qrc_cpTerrainPro.cpp \
 		moc_CUgl.cpp \
 		moc_oglWidget.cpp \
 		moc_appWindow.cpp
@@ -69,11 +70,14 @@ OBJECTS       = main.o \
 		cube.o \
 		sphere.o \
 		Noise.o \
+		skybox.o \
 		qrc_cpTerrainPro.o \
 		moc_CUgl.o \
 		moc_oglWidget.o \
 		moc_appWindow.o
-DIST          = ../../../Qt/5.8/clang_64/mkspecs/features/spec_pre.prf \
+DIST          = shaders/terrain.frag \
+		shaders/terrain.vert \
+		../../../Qt/5.8/clang_64/mkspecs/features/spec_pre.prf \
 		../../../Qt/5.8/clang_64/mkspecs/qdevice.pri \
 		../../../Qt/5.8/clang_64/mkspecs/features/device_config.prf \
 		../../../Qt/5.8/clang_64/mkspecs/common/unix.conf \
@@ -256,7 +260,8 @@ DIST          = ../../../Qt/5.8/clang_64/mkspecs/features/spec_pre.prf \
 		appWindow.h \
 		cube.h \
 		sphere.h \
-		Noise.h main.cpp \
+		Noise.h \
+		skybox.h main.cpp \
 		CUgl.cpp \
 		Object.cpp \
 		oglWidget.cpp \
@@ -264,7 +269,8 @@ DIST          = ../../../Qt/5.8/clang_64/mkspecs/features/spec_pre.prf \
 		appWindow.cpp \
 		cube.cpp \
 		sphere.cpp \
-		Noise.cpp
+		Noise.cpp \
+		skybox.cpp
 QMAKE_TARGET  = cpTerrainPro
 DESTDIR       = 
 TARGET        = cpTerrainPro.app/Contents/MacOS/cpTerrainPro
@@ -669,8 +675,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents cpTerrainPro.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../../../Qt/5.8/clang_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents CUgl.h Object.h Type.h oglWidget.h particles.h appWindow.h cube.h sphere.h Noise.h $(DISTDIR)/
-	$(COPY_FILE) --parents main.cpp CUgl.cpp Object.cpp oglWidget.cpp particles.cpp appWindow.cpp cube.cpp sphere.cpp Noise.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents CUgl.h Object.h Type.h oglWidget.h particles.h appWindow.h cube.h sphere.h Noise.h skybox.h $(DISTDIR)/
+	$(COPY_FILE) --parents main.cpp CUgl.cpp Object.cpp oglWidget.cpp particles.cpp appWindow.cpp cube.cpp sphere.cpp Noise.cpp skybox.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -701,12 +707,29 @@ qrc_cpTerrainPro.cpp: cpTerrainPro.qrc \
 		../../../Qt/5.8/clang_64/bin/rcc \
 		shaders/cube.frag \
 		shaders/pass.vert \
+		shaders/terraintessellation.tes \
+		shaders/terraintessellation.frag \
+		shaders/skybox.vert \
 		shaders/snow.frag \
+		shaders/terraintessellation.tcs \
 		shaders/cube.vert \
 		shaders/pass.frag \
+		shaders/terraintessellation.geom \
+		shaders/terraintessellation.vert \
+		shaders/skybox.frag \
 		shaders/snow.vert \
+		textures/nightsky_bk.jpg \
+		textures/nightsky_rt.jpg \
 		textures/crate.png \
-		textures/snowflake.png
+		textures/nightsky_up.jpg \
+		textures/heightmap1024.png \
+		textures/nightsky_lf.jpg \
+		textures/snow.jpg \
+		textures/snowflake.png \
+		textures/grass.jpg \
+		textures/rock.jpg \
+		textures/nightsky_dn.jpg \
+		textures/nightsky_ft.jpg
 	/Users/Chris/Qt/5.8/clang_64/bin/rcc -name cpTerrainPro cpTerrainPro.qrc -o qrc_cpTerrainPro.cpp
 
 compiler_moc_predefs_make_all: moc_predefs.h
@@ -744,6 +767,7 @@ moc_CUgl.cpp: ../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/QApplicat
 		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qmessagebox.h \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QObject \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QKeyEvent \
 		Object.h \
 		Type.h \
 		CUgl.h \
@@ -782,6 +806,7 @@ moc_oglWidget.cpp: ../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLF
 		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qmessagebox.h \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QObject \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QKeyEvent \
 		Object.h \
 		Type.h \
 		oglWidget.h \
@@ -827,6 +852,7 @@ moc_appWindow.cpp: ../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/QWid
 		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qmessagebox.h \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QObject \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QKeyEvent \
 		Object.h \
 		Type.h \
 		appWindow.h \
@@ -852,6 +878,8 @@ compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_heade
 
 main.o: main.cpp ../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/QApplication \
 		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qapplication.h \
+		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/QDesktopWidget \
+		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qdesktopwidget.h \
 		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QSurfaceFormat \
 		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qsurfaceformat.h \
 		appWindow.h \
@@ -891,6 +919,7 @@ main.o: main.cpp ../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/QAppli
 		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qmessagebox.h \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QObject \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QKeyEvent \
 		Object.h \
 		Type.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
@@ -922,6 +951,7 @@ CUgl.o: CUgl.cpp CUgl.h \
 		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qmessagebox.h \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QObject \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QKeyEvent \
 		Object.h \
 		Type.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o CUgl.o CUgl.cpp
@@ -964,9 +994,11 @@ oglWidget.o: oglWidget.cpp oglWidget.h \
 		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qmessagebox.h \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QObject \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QKeyEvent \
 		Object.h \
 		Type.h \
 		particles.h \
+		skybox.h \
 		cube.h \
 		sphere.h \
 		Noise.h
@@ -1028,6 +1060,7 @@ appWindow.o: appWindow.cpp ../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Head
 		../../../Qt/5.8/clang_64/lib/QtWidgets.framework/Headers/qmessagebox.h \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/QObject \
 		../../../Qt/5.8/clang_64/lib/QtCore.framework/Headers/qobject.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QKeyEvent \
 		Object.h \
 		Type.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o appWindow.o appWindow.cpp
@@ -1050,6 +1083,13 @@ sphere.o: sphere.cpp sphere.h \
 
 Noise.o: Noise.cpp Noise.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Noise.o Noise.cpp
+
+skybox.o: skybox.cpp skybox.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLBuffer \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglbuffer.h \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLFunctions \
+		../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglfunctions.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o skybox.o skybox.cpp
 
 qrc_cpTerrainPro.o: qrc_cpTerrainPro.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_cpTerrainPro.o qrc_cpTerrainPro.cpp

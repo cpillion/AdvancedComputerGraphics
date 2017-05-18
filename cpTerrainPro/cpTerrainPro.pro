@@ -7,7 +7,8 @@ HEADERS       = \
     appWindow.h \
     cube.h \
     sphere.h \
-    Noise.h
+    Noise.h \
+    skybox.h
 SOURCES       = \
                 main.cpp \
     CUgl.cpp \
@@ -17,7 +18,8 @@ SOURCES       = \
     appWindow.cpp \
     cube.cpp \
     sphere.cpp \
-    Noise.cpp
+    Noise.cpp \
+    skybox.cpp
 
 QT           += widgets
 

@@ -58,6 +58,7 @@
 #include <QMatrix4x4>
 #include "CUgl.h"
 
+
 class oglWidget : public CUgl, protected QOpenGLFunctions
 {
     Q_OBJECT
@@ -70,8 +71,8 @@ public:
     QSize sizeHint() const override;
 
 public slots:
-    void setMode(int m);                   //  Slot mode
-    void setMsize(int pct);                  //  Slot to set position
+    void setMode(int m);
+    void setMsize(int pct);
     void setHsize(int pct);
     void cleanup();
 
@@ -80,25 +81,35 @@ protected:
     void paintGL() override;
 
 private:
-    int     mode;
     float   MAP_SCALE;
     float   H_SCALE;
 
     int cube_size;
+    int patchCount;
     QPoint m_lastPos;
+    QSize heightMapSize;
+    QOpenGLVertexArrayObject skyboxVAO;
     QOpenGLVertexArrayObject cubeVAO;
     QOpenGLVertexArrayObject sphereVAO;
     QOpenGLVertexArrayObject snowVAO;
+    QOpenGLVertexArrayObject terrainVAO;
+    QOpenGLBuffer skyboxBuff;
     QOpenGLBuffer cubeBuff;
     QOpenGLBuffer sphereBuff;
     QOpenGLBuffer snowBuff;
     QOpenGLBuffer terrainBuff;
+    QOpenGLShaderProgram *skyboxShader;
     QOpenGLShaderProgram *crateShader;
     QOpenGLShaderProgram *passShader;
     QOpenGLShaderProgram *snowShader;
     QOpenGLShaderProgram *terrainShader;
+    QOpenGLTexture *skyboxTex;
     QOpenGLTexture *crateTex;
     QOpenGLTexture *snowflakeTex;
+    QOpenGLTexture *grassTexture;
+    QOpenGLTexture *rockTexture;
+    QOpenGLTexture *snowTexture;
+    QOpenGLTexture *heightMap;
 };
 
 #endif

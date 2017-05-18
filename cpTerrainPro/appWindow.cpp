@@ -21,30 +21,35 @@ appWindow::appWindow()
 
    //  Select shader
    QComboBox* shader = new QComboBox();
-   shader->addItem("Shader Off");
-   shader->addItem("Shader On");
+   shader->addItem("Wire Frame");
+   shader->addItem("Height Gradient");
+   shader->addItem("Textures");
+   shader->addItem("Phong Lighting");
+   shader->addItem("Textures and Lighting");
+   shader->setCurrentIndex(1);
 
    //  Select projection
    QComboBox* projection = new QComboBox();
-   projection->addItem("Orthogonal");
+   projection->addItem("Orthogonal (for Debugging)");
    projection->addItem("Perspective");
-   projection->setCurrentIndex(0);
+   projection->setCurrentIndex(1);
 
    //  View angle and zoom
    QLabel* angles = new QLabel();
 
-   //  Slider
+   //  Map Size Slider
    QSlider* slider = new QSlider(Qt::Horizontal);
-   slider->setRange(1,50);
+   slider->setRange(10,1000);
 
-   //  Slider
+   //  Peak Size Slider
    QSlider* slider2 = new QSlider(Qt::Horizontal);
-   slider2->setRange(0,20);
+   slider2->setRange(0,60);
 
-   //  Slider
+   //  Light Angle Slider
    QSlider* zhSlide = new QSlider(Qt::Horizontal);
    zhSlide->setRange(0,360);
 
+   // Animate the scene option
    light = new QPushButton("Pause");
 
    //  Reset
@@ -67,7 +72,7 @@ appWindow::appWindow()
    layout->addWidget(slider2,4,2);
    layout->addWidget(new QLabel("Light Angle"),5,1);
    layout->addWidget(zhSlide,5,2);
-   layout->addWidget(new QLabel("Light Orbit"),6,1);
+   layout->addWidget(new QLabel("Animation"),6,1);
    layout->addWidget(light,6,2);
    layout->addWidget(rst,8,1);
    layout->addWidget(quit,8,2);

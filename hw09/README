@@ -10,6 +10,7 @@ COMPILE USING:
 
 RUN USING:
   hw09
+  (Example to see speedup: ./hw10 22 300)
 
 ACTIONS:
   All actions are executed on the Qt Widget.

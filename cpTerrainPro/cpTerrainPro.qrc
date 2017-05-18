@@ -8,5 +8,22 @@
         <file>shaders/pass.frag</file>
         <file>shaders/snow.vert</file>
         <file>shaders/snow.frag</file>
+        <file>shaders/terraintessellation.frag</file>
+        <file>shaders/terraintessellation.geom</file>
+        <file>shaders/terraintessellation.tcs</file>
+        <file>shaders/terraintessellation.tes</file>
+        <file>shaders/terraintessellation.vert</file>
+        <file>textures/heightmap1024.png</file>
+        <file>textures/grass.jpg</file>
+        <file>textures/rock.jpg</file>
+        <file>textures/snow.jpg</file>
+        <file>textures/nightsky_bk.jpg</file>
+        <file>textures/nightsky_dn.jpg</file>
+        <file>textures/nightsky_ft.jpg</file>
+        <file>textures/nightsky_lf.jpg</file>
+        <file>textures/nightsky_rt.jpg</file>
+        <file>textures/nightsky_up.jpg</file>
+        <file>shaders/skybox.frag</file>
+        <file>shaders/skybox.vert</file>
     </qresource>
 </RCC>
